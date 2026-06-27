@@ -1,7 +1,7 @@
 {
   "name": "kantohub-backend",
   "version": "3.0.0",
-  "description": "KantoHub License System — Backend API (MongoDB)",
+  "description": "KantoHub License System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
