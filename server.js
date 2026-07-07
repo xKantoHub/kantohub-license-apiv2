@@ -1,1 +1,1337 @@
-const _0xe0b05e=_0x204b;(function(_0x4eb801,_0x327462){const _0x249744=_0x204b,_0x4ae858=_0x4eb801();while(!![]){try{const _0x3db097=-parseInt(_0x249744(0x44a))/(-0x16ea+0x2431+-0x2*0x6a3)*(parseInt(_0x249744(0x306))/(-0x1*0x298+0x89f*0x1+-0x605))+-parseInt(_0x249744(0x2eb))/(0x67*0xd+0x21bb+-0x26f3)+-parseInt(_0x249744(0x27e))/(0x17e8+-0x705+-0x10df)+-parseInt(_0x249744(0x1ae))/(-0x11cf*0x2+-0x1b15+-0x12*-0x37c)+parseInt(_0x249744(0x3a2))/(0x25bb+0x19f4+0x3fa9*-0x1)+-parseInt(_0x249744(0x290))/(0xe7+0x3fe*0x5+-0x14d6)+parseInt(_0x249744(0x42a))/(0xd12+0x241d+-0x3127)*(parseInt(_0x249744(0x1b5))/(0x613*0x3+-0x223c+-0x403*-0x4));if(_0x3db097===_0x327462)break;else _0x4ae858['push'](_0x4ae858['shift']());}catch(_0xf3e8c7){_0x4ae858['push'](_0x4ae858['shift']());}}}(_0x1236,0x1*0x5b9a3+-0x45f7e+-0x3f8f*-0x10));const express=require(_0xe0b05e(0x2f9)),mongoose=require(_0xe0b05e(0x298)),bcrypt=require(_0xe0b05e(0x1df)),cors=require(_0xe0b05e(0x362)),crypto=require(_0xe0b05e(0x2b3)),path=require(_0xe0b05e(0x2a2)),fs=require('fs'),app=express(),PORT=process.env.PORT||0xf*-0x1cb+0x6*0x239+-0x3*-0x86d,MONGO_URI=process.env.MONGO_URI||_0xe0b05e(0x341)+_0xe0b05e(0x384)+_0xe0b05e(0x4a9)+_0xe0b05e(0x29c)+_0xe0b05e(0x2da)+_0xe0b05e(0x49c)+_0xe0b05e(0x391)+_0xe0b05e(0x23e)+_0xe0b05e(0x494)+_0xe0b05e(0x24d)+_0xe0b05e(0x2fc)+_0xe0b05e(0x496)+_0xe0b05e(0x430)+_0xe0b05e(0x3cb)+_0xe0b05e(0x476)+_0xe0b05e(0x326)+_0xe0b05e(0x335)+_0xe0b05e(0x2d8)+_0xe0b05e(0x349)+_0xe0b05e(0x20a)+_0xe0b05e(0x24b)+_0xe0b05e(0x1ad)+_0xe0b05e(0x2ec)+_0xe0b05e(0x35b)+_0xe0b05e(0x2b0)+_0xe0b05e(0x3ae)+_0xe0b05e(0x1d6)+_0xe0b05e(0x2dd),DISCORD_CLIENT_ID=process.env.DISCORD_CLIENT_ID||'',DISCORD_CLIENT_SECRET=process.env.DISCORD_CLIENT_SECRET||'',DISCORD_REDIRECT_URI=process.env.DISCORD_REDIRECT_URI||_0xe0b05e(0x279)+_0xe0b05e(0x30d)+(process.env.PORT||0x47e+-0x16bd*-0x1+-0xf83)+(_0xe0b05e(0x357)+_0xe0b05e(0x1a7)+_0xe0b05e(0x1eb)),FRONTEND_URL=process.env.FRONTEND_URL||_0xe0b05e(0x279)+_0xe0b05e(0x30d)+(process.env.PORT||-0x1*0x823+-0x6*-0x43+0x1249),userSchema=new mongoose[(_0xe0b05e(0x436))]({'id':{'type':String,'required':!![],'unique':!![]},'username':{'type':String,'required':!![],'unique':!![]},'discord_id':{'type':String,'required':!![]},'discord_username':{'type':String,'default':''},'discord_avatar':{'type':String,'default':''},'password':{'type':String,'required':!![]},'role':{'type':String,'default':_0xe0b05e(0x1c6)},'credits':{'type':Number,'default':0x0},'key_prefix':{'type':String,'default':null},'created_at':{'type':Date,'default':Date[_0xe0b05e(0x3b3)]}}),sessionSchema=new mongoose[(_0xe0b05e(0x436))]({'user_id':{'type':String,'required':!![]},'token_hash':{'type':String,'required':!![],'unique':!![]},'expires_at':{'type':Date,'required':!![]},'user_agent':{'type':String,'default':''},'created_at':{'type':Date,'default':Date[_0xe0b05e(0x3b3)]}}),creditHistorySchema=new mongoose[(_0xe0b05e(0x436))]({'user_id':{'type':String,'required':!![]},'action':{'type':String,'required':!![]},'amount':{'type':Number,'required':!![]},'by_user':{'type':String,'required':!![]},'date':{'type':String,'required':!![]}}),licenseKeySchema=new mongoose[(_0xe0b05e(0x436))]({'id':{'type':String,'required':!![],'unique':!![]},'system_name':{'type':String,'required':!![]},'server_name':{'type':String,'default':''},'place_id':{'type':String,'required':!![]},'key_value':{'type':String,'required':!![],'unique':!![]},'assigned_to':{'type':String,'required':!![]},'duration':{'type':String,'default':_0xe0b05e(0x4a4)},'activated':{'type':Boolean,'default':![]},'activated_at':{'type':Date,'default':null},'expires_at':{'type':Date,'default':null},'revoked':{'type':Boolean,'default':![]},'job_id':{'type':String,'default':''},'created_by':{'type':String,'required':!![]},'created_at':{'type':Date,'default':Date[_0xe0b05e(0x3b3)]}}),keyUsageSchema=new mongoose[(_0xe0b05e(0x436))]({'key_id':{'type':String,'required':!![]},'key_value':{'type':String,'required':!![]},'system_name':{'type':String,'default':''},'place_id':{'type':String,'default':''},'job_id':{'type':String,'default':''},'server_name':{'type':String,'default':''},'assigned_to':{'type':String,'default':''},'created_by':{'type':String,'default':''},'event':{'type':String,'default':_0xe0b05e(0x271)},'message':{'type':String,'default':''},'timestamp':{'type':Date,'default':Date[_0xe0b05e(0x3b3)]}}),adminLogSchema=new mongoose[(_0xe0b05e(0x436))]({'actor_id':{'type':String,'required':!![]},'actor_username':{'type':String,'required':!![]},'action':{'type':String,'required':!![]},'target_type':{'type':String,'default':''},'target_id':{'type':String,'default':''},'target_label':{'type':String,'default':''},'details':{'type':String,'default':''},'timestamp':{'type':Date,'default':Date[_0xe0b05e(0x3b3)]}});adminLogSchema[_0xe0b05e(0x20c)]({'timestamp':-(0x247f+-0x1a4e+0x4*-0x28c)}),adminLogSchema[_0xe0b05e(0x20c)]({'actor_id':0x1,'timestamp':-(0xa09+-0x1d42+0x6b*0x2e)});const redeemCodeSchema=new mongoose[(_0xe0b05e(0x436))]({'id':{'type':String,'required':!![],'unique':!![]},'code':{'type':String,'required':!![],'unique':!![]},'prefix':{'type':String,'required':!![]},'credits':{'type':Number,'required':!![]},'maxUses':{'type':Number,'default':0x1},'usedCount':{'type':Number,'default':0x0},'usedBy':[{'type':String}],'created_by':{'type':String,'required':!![]},'created_at':{'type':Date,'default':Date[_0xe0b05e(0x3b3)]}});redeemCodeSchema[_0xe0b05e(0x20c)]({'code':0x1}),sessionSchema[_0xe0b05e(0x20c)]({'expires_at':0x1},{'expireAfterSeconds':0x0}),licenseKeySchema[_0xe0b05e(0x20c)]({'assigned_to':0x1}),creditHistorySchema[_0xe0b05e(0x20c)]({'user_id':0x1}),keyUsageSchema[_0xe0b05e(0x20c)]({'key_id':0x1,'timestamp':-(0xcf7+0x2f*0x9b+0x296b*-0x1)}),keyUsageSchema[_0xe0b05e(0x20c)]({'timestamp':-(-0x255*0x1+-0xc70*-0x2+-0x168a)});const User=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x480),userSchema),Session=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x217),sessionSchema),CreditHistory=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x401)+_0xe0b05e(0x38a),creditHistorySchema),LicenseKey=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x467),licenseKeySchema),KeyUsage=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x1bd),keyUsageSchema),AdminLog=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x242),adminLogSchema),RedeemCode=mongoose[_0xe0b05e(0x25d)](_0xe0b05e(0x429),redeemCodeSchema);async function connectDB(){const _0x4e9eb0=_0xe0b05e,_0x19358c={'OoMRi':_0x4e9eb0(0x2ce)+_0x4e9eb0(0x2b5),'rnCtJ':function(_0x22c7c1){return _0x22c7c1();},'yqEGS':_0x4e9eb0(0x2d4)+_0x4e9eb0(0x3f6)+_0x4e9eb0(0x1c3),'JWlSo':_0x4e9eb0(0x355)+'ED','Ytssy':_0x4e9eb0(0x456),'BrmFY':_0x4e9eb0(0x2dc)+_0x4e9eb0(0x449)+_0x4e9eb0(0x45f)+_0x4e9eb0(0x447)+_0x4e9eb0(0x454)+_0x4e9eb0(0x41b)+_0x4e9eb0(0x435),'xAtOJ':_0x4e9eb0(0x2e5)+_0x4e9eb0(0x3d9)+_0x4e9eb0(0x338)+_0x4e9eb0(0x274)+_0x4e9eb0(0x296)+_0x4e9eb0(0x22e)+_0x4e9eb0(0x420),'ywfoF':_0x4e9eb0(0x1ea)+_0x4e9eb0(0x250)+_0x4e9eb0(0x1bc)+_0x4e9eb0(0x1fb)+_0x4e9eb0(0x2cc)};try{await mongoose[_0x4e9eb0(0x343)](MONGO_URI,{'serverSelectionTimeoutMS':0x2710,'connectTimeoutMS':0x2710}),console[_0x4e9eb0(0x23a)](_0x19358c[_0x4e9eb0(0x223)]),await _0x19358c[_0x4e9eb0(0x46d)](seedAdmin);}catch(_0x529383){console[_0x4e9eb0(0x2c2)](_0x19358c[_0x4e9eb0(0x40f)],_0x529383[_0x4e9eb0(0x3e9)]),(_0x529383[_0x4e9eb0(0x3e9)][_0x4e9eb0(0x426)](_0x19358c[_0x4e9eb0(0x27c)])||_0x529383[_0x4e9eb0(0x3e9)][_0x4e9eb0(0x426)](_0x19358c[_0x4e9eb0(0x26f)]))&&(console[_0x4e9eb0(0x2c2)](_0x19358c[_0x4e9eb0(0x264)]),console[_0x4e9eb0(0x2c2)](_0x19358c[_0x4e9eb0(0x34b)]),console[_0x4e9eb0(0x2c2)](_0x19358c[_0x4e9eb0(0x3a4)])),process[_0x4e9eb0(0x4aa)](-0x1*0xe3+0x1*0x6c9+-0x5e5);}}async function seedAdmin(){const _0xc0dadc=_0xe0b05e,_0x2e7f10={'QrsID':_0xc0dadc(0x2a5),'FXZRA':_0xc0dadc(0x364)+_0xc0dadc(0x2d9),'uJyCF':_0xc0dadc(0x37c),'gQNwA':_0xc0dadc(0x2bf),'YWyLR':_0xc0dadc(0x451)+_0xc0dadc(0x34e),'UeDOw':_0xc0dadc(0x47d),'kiOVn':_0xc0dadc(0x25f),'vmDpI':_0xc0dadc(0x46c),'ZjyDX':_0xc0dadc(0x3f0),'KyuVC':_0xc0dadc(0x30a),'RWnal':function(_0x4e66e0){return _0x4e66e0();},'bzFhp':function(_0x138d3a,_0x573546){return _0x138d3a+_0x573546;},'XdXLb':_0xc0dadc(0x316)+_0xc0dadc(0x3b4),'hyQsX':function(_0x43adfb,_0x5400e4){return _0x43adfb!==_0x5400e4;},'vOZKa':function(_0x44ccd6,_0x5090b4){return _0x44ccd6+_0x5090b4;},'NnoyE':_0xc0dadc(0x1b0)+_0xc0dadc(0x1e7)+'\x20'},_0x2aeba4=[{'id':'u1','username':_0x2e7f10[_0xc0dadc(0x43a)],'discord_id':_0x2e7f10[_0xc0dadc(0x1a6)],'key_prefix':_0x2e7f10[_0xc0dadc(0x33e)]},{'id':'u2','username':_0x2e7f10[_0xc0dadc(0x24e)],'discord_id':_0x2e7f10[_0xc0dadc(0x237)],'key_prefix':_0x2e7f10[_0xc0dadc(0x1ab)]}];for(const _0x2c2282 of _0x2aeba4){const _0x536b18=await User[_0xc0dadc(0x19b)]({'$or':[{'id':_0x2c2282['id']},{'discord_id':_0x2c2282[_0xc0dadc(0x445)]}]});if(!_0x536b18){const _0x1d6d11=bcrypt[_0xc0dadc(0x3bb)](crypto[_0xc0dadc(0x4a0)+'s'](-0x26*0x4b+-0x1*-0x22c1+-0x1787)[_0xc0dadc(0x328)](_0x2e7f10[_0xc0dadc(0x3df)]),0x25f8+0xd1d+-0x330b);await User[_0xc0dadc(0x275)]({'id':_0x2c2282['id'],'username':_0x2c2282[_0xc0dadc(0x44b)],'discord_id':_0x2c2282[_0xc0dadc(0x445)],'password':_0x1d6d11,'role':_0x2e7f10[_0xc0dadc(0x45d)],'credits':0x3e7,'key_prefix':_0x2c2282[_0xc0dadc(0x308)]}),await CreditHistory[_0xc0dadc(0x275)]({'user_id':_0x2c2282['id'],'action':_0x2e7f10[_0xc0dadc(0x30f)],'amount':0x3e7,'by_user':_0x2e7f10[_0xc0dadc(0x1d5)],'date':_0x2e7f10[_0xc0dadc(0x2bc)](today)}),console[_0xc0dadc(0x23a)](_0x2e7f10[_0xc0dadc(0x29e)](_0x2e7f10[_0xc0dadc(0x3ab)],_0x2c2282[_0xc0dadc(0x44b)]));}else{const _0x49cba7={'discord_id':_0x2c2282[_0xc0dadc(0x445)],'key_prefix':_0x2c2282[_0xc0dadc(0x308)]};_0x2e7f10[_0xc0dadc(0x1a8)](_0x536b18[_0xc0dadc(0x3f1)],_0x2e7f10[_0xc0dadc(0x45d)])&&(_0x49cba7[_0xc0dadc(0x3f1)]=_0x2e7f10[_0xc0dadc(0x45d)],console[_0xc0dadc(0x23a)](_0x2e7f10[_0xc0dadc(0x38c)](_0x2e7f10[_0xc0dadc(0x302)],_0x2c2282[_0xc0dadc(0x44b)]))),await User[_0xc0dadc(0x241)]({'_id':_0x536b18[_0xc0dadc(0x3b0)]},{'$set':_0x49cba7});}}}function _0x204b(_0x1fb12b,_0xcb450e){_0x1fb12b=_0x1fb12b-(0x9c4+-0x10bb+0x873);const _0x480e67=_0x1236();let _0x7b309b=_0x480e67[_0x1fb12b];return _0x7b309b;}function genId(){const _0x166e9d=_0xe0b05e,_0x1f6311={'phHaA':_0x166e9d(0x25f)};return crypto[_0x166e9d(0x4a0)+'s'](0x133e+-0x2353*0x1+0x1*0x101e)[_0x166e9d(0x328)](_0x1f6311[_0x166e9d(0x486)]);}function genKey(_0x365938){const _0x3b34e5=_0xe0b05e,_0x16cf17={'wTEGU':_0x3b34e5(0x433)+_0x3b34e5(0x180)+_0x3b34e5(0x38e)+_0x3b34e5(0x492),'ELuGQ':function(_0x1f2c09,_0x52b24d){return _0x1f2c09<_0x52b24d;},'EbrFa':function(_0x1cb8fd,_0x58fa40){return _0x1cb8fd*_0x58fa40;}},_0x7458f8=_0x16cf17[_0x3b34e5(0x226)];let _0x2ce068='';for(let _0x5b38a2=-0x1df9+0x2*-0x760+0x6b*0x6b;_0x16cf17[_0x3b34e5(0x383)](_0x5b38a2,-0x2479+0xa68*-0x1+-0x1*-0x2eed);_0x5b38a2++)_0x2ce068+=_0x7458f8[Math[_0x3b34e5(0x24f)](_0x16cf17[_0x3b34e5(0x1f1)](Math[_0x3b34e5(0x406)](),_0x7458f8[_0x3b34e5(0x198)]))];return _0x365938+'-'+_0x2ce068;}function today(){const _0x4dbfbe=_0xe0b05e;return new Date()[_0x4dbfbe(0x1f7)+'g']()[_0x4dbfbe(0x1f9)]('T')[-0x2f1*0x2+-0x16ba+-0xe4e*-0x2];}function addDays(_0x138950){const _0x201f4f=_0xe0b05e,_0x5ac4d1={'xSGMs':function(_0x14758f,_0x22ba5f){return _0x14758f+_0x22ba5f;}},_0x6ac9f6=new Date();return _0x6ac9f6[_0x201f4f(0x238)](_0x5ac4d1[_0x201f4f(0x2c7)](_0x6ac9f6[_0x201f4f(0x1d7)](),_0x138950)),_0x6ac9f6;}function hashToken(_0x6ae4b0){const _0x28179f=_0xe0b05e,_0x417f3e={'wYJGF':_0x28179f(0x3d3),'RICKi':_0x28179f(0x25f)};return crypto[_0x28179f(0x443)](_0x417f3e[_0x28179f(0x2a4)])[_0x28179f(0x3d6)](_0x6ae4b0)[_0x28179f(0x2a8)](_0x417f3e[_0x28179f(0x468)]);}function isOwnerOrDev(_0x3fe706){const _0x236166=_0xe0b05e,_0x1f6cf6={'IttpV':function(_0x5ab371,_0x2482f4){return _0x5ab371===_0x2482f4;},'MisNK':_0x236166(0x46c),'HrFqe':function(_0x19000b,_0x3f9992){return _0x19000b===_0x3f9992;},'ISGTv':_0x236166(0x393)};return _0x1f6cf6[_0x236166(0x351)](_0x3fe706,_0x1f6cf6[_0x236166(0x2ac)])||_0x1f6cf6[_0x236166(0x2c4)](_0x3fe706,_0x1f6cf6[_0x236166(0x2db)]);}function isAdminRole(_0x32464f){const _0x8a7dd=_0xe0b05e,_0x4f9dba={'khtSI':function(_0x643ade,_0x1686c6){return _0x643ade(_0x1686c6);},'hCTzA':function(_0x279416,_0x21e327){return _0x279416===_0x21e327;},'eXYiF':_0x8a7dd(0x332)};return _0x4f9dba[_0x8a7dd(0x3ef)](isOwnerOrDev,_0x32464f)||_0x4f9dba[_0x8a7dd(0x32c)](_0x32464f,_0x4f9dba[_0x8a7dd(0x3aa)]);}function isStaffOrAbove(_0x306231){const _0x24997b=_0xe0b05e,_0x562413={'ZNgVF':function(_0x5eb155,_0x59bc5b){return _0x5eb155(_0x59bc5b);},'lCItq':function(_0x2ced20,_0x31ca1d){return _0x2ced20===_0x31ca1d;},'ezcxb':_0x24997b(0x1c5)};return _0x562413[_0x24997b(0x432)](isAdminRole,_0x306231)||_0x562413[_0x24997b(0x3db)](_0x306231,_0x562413[_0x24997b(0x34d)]);}function canGiveCredits(_0x3c81e0){const _0x8deeac=_0xe0b05e,_0x40eed9={'gRnyK':function(_0x145f33,_0xcc0e9){return _0x145f33(_0xcc0e9);},'lAiLK':function(_0x5ee6dd,_0x88b9af){return _0x5ee6dd===_0x88b9af;},'CcUlY':_0x8deeac(0x1cc)+'er'};return _0x40eed9[_0x8deeac(0x3bf)](isStaffOrAbove,_0x3c81e0)||_0x40eed9[_0x8deeac(0x1ba)](_0x3c81e0,_0x40eed9[_0x8deeac(0x305)]);}function canSeeAllUsers(_0x5a50d2){const _0x104977=_0xe0b05e,_0x669779={'fTaJq':function(_0xcfde73,_0x404ebd){return _0xcfde73(_0x404ebd);}};return _0x669779[_0x104977(0x201)](canGiveCredits,_0x5a50d2);}function canManageRoles(_0x4c754d){const _0x286c69=_0xe0b05e,_0x10ac1b={'xNinq':function(_0x2ae221,_0x4aff42){return _0x2ae221(_0x4aff42);}};return _0x10ac1b[_0x286c69(0x2f1)](isAdminRole,_0x4c754d);}function isProtectedTier(_0x2fd5d0){const _0x17b3e1=_0xe0b05e,_0x83efa3={'LaulS':function(_0x542198,_0x2ef654){return _0x542198(_0x2ef654);}};return _0x83efa3[_0x17b3e1(0x29d)](isOwnerOrDev,_0x2fd5d0);}async function logAdmin(_0x3a7272,_0x4f7372,_0x48f05c,_0x35a739,_0x478a3b,_0x331bda=''){const _0x392a80=_0xe0b05e;try{await AdminLog[_0x392a80(0x275)]({'actor_id':_0x3a7272['id'],'actor_username':_0x3a7272[_0x392a80(0x44b)],'action':_0x4f7372,'target_type':_0x48f05c,'target_id':_0x35a739,'target_label':_0x478a3b,'details':_0x331bda});}catch(_0x18f5d1){}}async function autoRevoke(){const _0x39dc57=_0xe0b05e;await LicenseKey[_0x39dc57(0x2e2)]({'activated':!![],'expires_at':{'$ne':null,'$lt':new Date()},'revoked':![]},{'$set':{'revoked':!![]}});}app[_0xe0b05e(0x33d)](cors({'origin':!![],'credentials':!![]})),app[_0xe0b05e(0x33d)](express[_0xe0b05e(0x3e0)]());const frontendDir=__dirname;console[_0xe0b05e(0x23a)](_0xe0b05e(0x321)+_0xe0b05e(0x1e9)+_0xe0b05e(0x197)+frontendDir),app[_0xe0b05e(0x33d)](express[_0xe0b05e(0x234)](frontendDir)),app[_0xe0b05e(0x256)](_0xe0b05e(0x458)+_0xe0b05e(0x2d6)+'e',requireAuth,(_0x236b4d,_0x4c858f)=>{const _0x2c88f8=_0xe0b05e,_0xf6483b={'dTgzw':_0x2c88f8(0x403)+_0x2c88f8(0x3dc),'Cnfaj':_0x2c88f8(0x235)+_0x2c88f8(0x3c0),'VOwwt':_0x2c88f8(0x1ec),'pnaWe':_0x2c88f8(0x310)+_0x2c88f8(0x236)+_0x2c88f8(0x389)},_0x4da33b=path[_0x2c88f8(0x35c)](__dirname,_0xf6483b[_0x2c88f8(0x4b6)],_0xf6483b[_0x2c88f8(0x2e0)]);_0x4c858f[_0x2c88f8(0x46e)](_0x4da33b,_0xf6483b[_0x2c88f8(0x2e0)],_0x19f0af=>{const _0x472843=_0x2c88f8;_0x19f0af&&(console[_0x472843(0x2c2)](_0xf6483b[_0x472843(0x2d0)],_0x19f0af),_0x4c858f[_0x472843(0x34f)](0x6c6+0x29b*0xa+-0x1f40)[_0x472843(0x3e0)]({'error':_0xf6483b[_0x472843(0x427)]}));});}),app[_0xe0b05e(0x256)](_0xe0b05e(0x357)+_0xe0b05e(0x3ac),(_0x4e42be,_0x36a505)=>{const _0x1879e3=_0xe0b05e,_0x18f469={'UHCHU':_0x1879e3(0x280)+_0x1879e3(0x441)+_0x1879e3(0x2ba),'IyVKt':_0x1879e3(0x2e7),'ufffC':_0x1879e3(0x339)};if(!DISCORD_CLIENT_ID)return _0x36a505[_0x1879e3(0x34f)](-0xb*-0x7+0xbb0+-0xa06)[_0x1879e3(0x3e0)]({'error':_0x18f469[_0x1879e3(0x437)]});const _0x1bb2f0=new URLSearchParams({'client_id':DISCORD_CLIENT_ID,'redirect_uri':DISCORD_REDIRECT_URI,'response_type':_0x18f469[_0x1879e3(0x32d)],'scope':_0x18f469[_0x1879e3(0x487)]});_0x36a505[_0x1879e3(0x40a)](_0x1879e3(0x19f)+_0x1879e3(0x1e2)+_0x1879e3(0x450)+_0x1879e3(0x4b1)+'?'+_0x1bb2f0);}),app[_0xe0b05e(0x256)](_0xe0b05e(0x357)+_0xe0b05e(0x1a7)+_0xe0b05e(0x1eb),async(_0x5c301b,_0x3951e0)=>{const _0x19e597=_0xe0b05e,_0x5d15a3={'IzqVY':function(_0x19257e,_0x5c60b0,_0x1702bd){return _0x19257e(_0x5c60b0,_0x1702bd);},'tjLUF':_0x19e597(0x19f)+_0x19e597(0x1e2)+_0x19e597(0x450)+_0x19e597(0x315),'qFbST':_0x19e597(0x20e),'VuXAw':_0x19e597(0x2ef)+_0x19e597(0x37b)+_0x19e597(0x356)+_0x19e597(0x3f3),'nuCoj':_0x19e597(0x20b)+_0x19e597(0x368),'YURVx':_0x19e597(0x31a)+_0x19e597(0x200)+_0x19e597(0x330),'kENDa':function(_0x598d84,_0x254e99,_0x5c428f){return _0x598d84(_0x254e99,_0x5c428f);},'czDzZ':_0x19e597(0x19f)+_0x19e597(0x1e2)+_0x19e597(0x350)+_0x19e597(0x45a),'ATsNr':function(_0x2144b9,_0x2d756e){return _0x2144b9%_0x2d756e;},'ocice':function(_0x571410,_0x2ab1bd){return _0x571410(_0x2ab1bd);},'WpSSN':function(_0x5ae059,_0x3b6821){return _0x5ae059>>_0x3b6821;},'vWlvV':function(_0x51a457,_0x569db6){return _0x51a457(_0x569db6);},'PkITY':function(_0xa503d2,_0x210f28){return _0xa503d2+_0x210f28;},'smJeh':function(_0x117f6c,_0x2f0187){return _0x117f6c+_0x2f0187;},'mPnYa':function(_0x5e0f8b){return _0x5e0f8b();},'eaogW':_0x19e597(0x25f),'DcoPi':_0x19e597(0x1c6),'fADAT':function(_0x17f779,_0x1b953a){return _0x17f779(_0x1b953a);},'rcSkh':_0x19e597(0x4a1)+_0x19e597(0x2e6),'JqQAm':_0x19e597(0x280)+_0x19e597(0x17c)},{code:_0x553b2a}=_0x5c301b[_0x19e597(0x32f)];if(!_0x553b2a)return _0x3951e0[_0x19e597(0x40a)](FRONTEND_URL+(_0x19e597(0x293)+_0x19e597(0x1b6)+_0x19e597(0x3a9)+'de'));try{const _0x3e7f5c=await _0x5d15a3[_0x19e597(0x3cf)](fetch,_0x5d15a3[_0x19e597(0x22f)],{'method':_0x5d15a3[_0x19e597(0x263)],'headers':{'Content-Type':_0x5d15a3[_0x19e597(0x352)]},'body':new URLSearchParams({'client_id':DISCORD_CLIENT_ID,'client_secret':DISCORD_CLIENT_SECRET,'grant_type':_0x5d15a3[_0x19e597(0x18f)],'code':_0x553b2a,'redirect_uri':DISCORD_REDIRECT_URI})}),_0xdef885=await _0x3e7f5c[_0x19e597(0x3e0)]();if(!_0xdef885[_0x19e597(0x2fa)+'en'])return console[_0x19e597(0x2c2)](_0x5d15a3[_0x19e597(0x29f)],_0xdef885),_0x3951e0[_0x19e597(0x40a)](FRONTEND_URL+(_0x19e597(0x293)+_0x19e597(0x1b6)+_0x19e597(0x3fa)+_0x19e597(0x428)));const _0x11323d=await _0x5d15a3[_0x19e597(0x35d)](fetch,_0x5d15a3[_0x19e597(0x1de)],{'headers':{'Authorization':_0x19e597(0x3fb)+_0xdef885[_0x19e597(0x2fa)+'en']}}),_0x44515a=await _0x11323d[_0x19e597(0x3e0)](),_0x272f4c=_0x44515a['id'],_0x111f5c=_0x44515a[_0x19e597(0x41d)+'e']||_0x44515a[_0x19e597(0x44b)],_0x4edb67=_0x44515a[_0x19e597(0x493)]?_0x19e597(0x2f0)+_0x19e597(0x36a)+_0x19e597(0x318)+_0x19e597(0x3fd)+_0x272f4c+'/'+_0x44515a[_0x19e597(0x493)]+(_0x19e597(0x342)+_0x19e597(0x31e)):_0x19e597(0x2f0)+_0x19e597(0x36a)+_0x19e597(0x25a)+_0x19e597(0x49d)+'/'+_0x5d15a3[_0x19e597(0x2e9)](_0x5d15a3[_0x19e597(0x323)](Number,_0x5d15a3[_0x19e597(0x183)](_0x5d15a3[_0x19e597(0x438)](BigInt,_0x272f4c),0x16n)),0x19b1+0x1*0x1066+-0x2a11)+_0x19e597(0x360);let _0x415ea8=await User[_0x19e597(0x19b)]({'discord_id':_0x272f4c});if(!_0x415ea8){let _0x3deafb=_0x111f5c[_0x19e597(0x1b2)](/[^a-zA-Z0-9_]/g,'_')[_0x19e597(0x2c1)](-0x9b8+0x51*-0x5d+0x38f*0xb,0x1828+0x157*-0x10+-0x2a4);const _0x5d66af=await User[_0x19e597(0x19b)]({'username':_0x3deafb});if(_0x5d66af)_0x3deafb=_0x5d15a3[_0x19e597(0x365)](_0x5d15a3[_0x19e597(0x1c7)](_0x3deafb,'_'),_0x5d15a3[_0x19e597(0x35a)](genId)[_0x19e597(0x2c1)](0x89*0xb+-0x16d6+0x10f3,-0x1b5*0x7+-0x4*0x678+0x25d7));const _0x5555c5=bcrypt[_0x19e597(0x3bb)](crypto[_0x19e597(0x4a0)+'s'](0x1*0xaaa+0xd6c+-0x1806)[_0x19e597(0x328)](_0x5d15a3[_0x19e597(0x1c4)]),-0x265*-0x2+-0x211f+-0x1*-0x1c5f);_0x415ea8=await User[_0x19e597(0x275)]({'id':_0x5d15a3[_0x19e597(0x35a)](genId),'username':_0x3deafb,'discord_id':_0x272f4c,'discord_username':_0x111f5c,'discord_avatar':_0x4edb67,'password':_0x5555c5,'role':_0x5d15a3[_0x19e597(0x249)],'credits':0x0,'key_prefix':null});}else await User[_0x19e597(0x241)]({'id':_0x415ea8['id']},{'$set':{'discord_username':_0x111f5c,'discord_avatar':_0x4edb67}});await Session[_0x19e597(0x472)]({'user_id':_0x415ea8['id']});const _0x20c1b2=crypto[_0x19e597(0x4a0)+'s'](0x816+0xb*0x191+-0x1*0x1931)[_0x19e597(0x328)](_0x5d15a3[_0x19e597(0x1c4)]);await Session[_0x19e597(0x275)]({'user_id':_0x415ea8['id'],'token_hash':_0x5d15a3[_0x19e597(0x192)](hashToken,_0x20c1b2),'expires_at':_0x5d15a3[_0x19e597(0x438)](addDays,0x24b6+0x7d+0x17*-0x19e),'user_agent':_0x5d15a3[_0x19e597(0x270)]}),_0x3951e0[_0x19e597(0x40a)](FRONTEND_URL+(_0x19e597(0x293)+_0x19e597(0x2b7)+_0x19e597(0x48e))+_0x20c1b2);}catch(_0x2c1eb5){console[_0x19e597(0x2c2)](_0x5d15a3[_0x19e597(0x380)],_0x2c1eb5),_0x3951e0[_0x19e597(0x40a)](FRONTEND_URL+(_0x19e597(0x293)+_0x19e597(0x1b6)+_0x19e597(0x1dd)+_0x19e597(0x229)));}});async function requireAuth(_0x40ab30,_0x54faff,_0x49ef04){const _0x49208d=_0xe0b05e,_0x449ac9={'KDTvg':_0x49208d(0x20b)+_0x49208d(0x27a),'KDGth':_0x49208d(0x3fb),'RFURl':_0x49208d(0x388)+_0x49208d(0x276),'TXnDr':function(_0x126714,_0x2403b6){return _0x126714(_0x2403b6);},'XUsgT':_0x49208d(0x233)+_0x49208d(0x220)+_0x49208d(0x244)+_0x49208d(0x3ce),'NcKOI':_0x49208d(0x1a3)+_0x49208d(0x3c0),'BpWPo':function(_0x1f7094){return _0x1f7094();},'lGRGK':_0x49208d(0x33b)+'.'};try{const _0x34d4e2=_0x40ab30[_0x49208d(0x225)][_0x449ac9[_0x49208d(0x278)]]||'',_0x50183b=_0x34d4e2[_0x49208d(0x1cb)](_0x449ac9[_0x49208d(0x245)])?_0x34d4e2[_0x49208d(0x2c1)](-0x33f+0x3e9+-0xa3*0x1):null;if(!_0x50183b)return _0x54faff[_0x49208d(0x34f)](-0xf88+-0x17c9+0x28e2)[_0x49208d(0x3e0)]({'error':_0x449ac9[_0x49208d(0x17d)]});const _0x38e98e=_0x449ac9[_0x49208d(0x43f)](hashToken,_0x50183b),_0x43a537=await Session[_0x49208d(0x19b)]({'token_hash':_0x38e98e,'expires_at':{'$gt':new Date()}});if(!_0x43a537)return _0x54faff[_0x49208d(0x34f)](-0x11cd+0x184+-0x2*-0x8ed)[_0x49208d(0x3e0)]({'error':_0x449ac9[_0x49208d(0x218)]});const _0x8c4d09=await User[_0x49208d(0x19b)]({'id':_0x43a537[_0x49208d(0x277)]});if(!_0x8c4d09)return _0x54faff[_0x49208d(0x34f)](-0x1c96+-0x1288+0x30af)[_0x49208d(0x3e0)]({'error':_0x449ac9[_0x49208d(0x439)]});_0x40ab30[_0x49208d(0x292)]={'id':_0x8c4d09['id'],'username':_0x8c4d09[_0x49208d(0x44b)],'role':_0x8c4d09[_0x49208d(0x3f1)],'credits':_0x8c4d09[_0x49208d(0x23f)],'key_prefix':_0x8c4d09[_0x49208d(0x308)],'discord_avatar':_0x8c4d09[_0x49208d(0x381)+_0x49208d(0x434)]||'','discord_username':_0x8c4d09[_0x49208d(0x28b)+_0x49208d(0x412)]||''},_0x40ab30[_0x49208d(0x19a)]=_0x50183b,_0x449ac9[_0x49208d(0x25c)](_0x49ef04);}catch(_0x8d1306){_0x54faff[_0x49208d(0x34f)](0x8f*-0xb+-0x189e+0x7d*0x43)[_0x49208d(0x3e0)]({'error':_0x449ac9[_0x49208d(0x4a7)]});}}function requireAdmin(_0x19ccf4,_0x2bd6a7,_0x3e9923){const _0x43c4da=_0xe0b05e,_0x3ff9b2={'BWhja':function(_0x515637,_0x3bd372){return _0x515637(_0x3bd372);},'TlIfo':_0x43c4da(0x39f)+'.','AYGTa':function(_0x55e90a){return _0x55e90a();}};if(!_0x3ff9b2[_0x43c4da(0x44e)](isAdminRole,_0x19ccf4[_0x43c4da(0x292)][_0x43c4da(0x3f1)]))return _0x2bd6a7[_0x43c4da(0x34f)](0x2575+0x26de+-0x4ac0)[_0x43c4da(0x3e0)]({'error':_0x3ff9b2[_0x43c4da(0x378)]});_0x3ff9b2[_0x43c4da(0x1f2)](_0x3e9923);}function requireStaff(_0x28d57f,_0x4aa5fa,_0x1ab6e1){const _0x4c5faf=_0xe0b05e,_0xb8e231={'GeHNh':function(_0x52387e,_0x49c123){return _0x52387e(_0x49c123);},'WrrnK':_0x4c5faf(0x41f)+_0x4c5faf(0x4ab),'gKJLf':function(_0x3c1ca2){return _0x3c1ca2();}};if(!_0xb8e231[_0x4c5faf(0x4ad)](isStaffOrAbove,_0x28d57f[_0x4c5faf(0x292)][_0x4c5faf(0x3f1)]))return _0x4aa5fa[_0x4c5faf(0x34f)](0x1c74+-0x13db+-0x3a*0x1f)[_0x4c5faf(0x3e0)]({'error':_0xb8e231[_0x4c5faf(0x3c9)]});_0xb8e231[_0x4c5faf(0x43c)](_0x1ab6e1);}function requireCreditGiver(_0x4650e2,_0x1c8a64,_0x5b85e7){const _0x311553=_0xe0b05e,_0x3dc658={'QsPih':function(_0x2b2c5f,_0xb59a61){return _0x2b2c5f(_0xb59a61);},'DAcej':_0x311553(0x3ba)+_0x311553(0x2d5),'jLlxI':function(_0x15ce50){return _0x15ce50();}};if(!_0x3dc658[_0x311553(0x4a6)](canGiveCredits,_0x4650e2[_0x311553(0x292)][_0x311553(0x3f1)]))return _0x1c8a64[_0x311553(0x34f)](0x23bf+0x383*0x4+-0x3038)[_0x311553(0x3e0)]({'error':_0x3dc658[_0x311553(0x2c0)]});_0x3dc658[_0x311553(0x4b9)](_0x5b85e7);}app[_0xe0b05e(0x36b)](_0xe0b05e(0x357)+_0xe0b05e(0x3d7),async(_0x58e072,_0x5d6dca)=>{const _0x568c47=_0xe0b05e,_0xedef04={'wUWzj':function(_0x21fbc8,_0x266e1c){return _0x21fbc8||_0x266e1c;},'ClEQm':_0x568c47(0x3d4)+_0x568c47(0x331),'hiKGG':_0x568c47(0x390)+_0x568c47(0x1c8)+_0x568c47(0x1ff),'eRudV':_0x568c47(0x25f),'VbSts':function(_0x462402,_0xccb616){return _0x462402(_0xccb616);},'OmmqM':_0x568c47(0x261),'dRpkQ':_0x568c47(0x1ed)+_0x568c47(0x3e7)};try{const {username:_0x528272,password:_0x1dffd4}=_0x58e072[_0x568c47(0x257)];if(_0xedef04[_0x568c47(0x414)](!_0x528272,!_0x1dffd4))return _0x5d6dca[_0x568c47(0x34f)](-0x926+0x2b5+0x801)[_0x568c47(0x3e0)]({'error':_0xedef04[_0x568c47(0x215)]});const _0x2f9f79=await User[_0x568c47(0x19b)]({'username':_0x528272});if(!_0x2f9f79||!bcrypt[_0x568c47(0x39c)+'c'](_0x1dffd4,_0x2f9f79[_0x568c47(0x465)]))return _0x5d6dca[_0x568c47(0x34f)](0x1fba+0x7*-0x433+-0x62*0x2)[_0x568c47(0x3e0)]({'error':_0xedef04[_0x568c47(0x3de)]});await Session[_0x568c47(0x472)]({'user_id':_0x2f9f79['id']});const _0x445445=crypto[_0x568c47(0x4a0)+'s'](-0x3*-0xe5+0x76e+0x9fd*-0x1)[_0x568c47(0x328)](_0xedef04[_0x568c47(0x210)]),_0x1edc0d=_0xedef04[_0x568c47(0x39b)](hashToken,_0x445445),_0x43a025=_0x58e072[_0x568c47(0x225)][_0xedef04[_0x568c47(0x189)]]||'';await Session[_0x568c47(0x275)]({'user_id':_0x2f9f79['id'],'token_hash':_0x1edc0d,'expires_at':_0xedef04[_0x568c47(0x39b)](addDays,0x56d+-0xd76*-0x1+-0x12e2),'user_agent':_0x43a025[_0x568c47(0x2c1)](-0x773*-0x5+-0xa05+-0x1b3a,0x2397+-0xa*-0x313+-0xad*0x61)}),_0x5d6dca[_0x568c47(0x3e0)]({'token':_0x445445,'user':{'id':_0x2f9f79['id'],'username':_0x2f9f79[_0x568c47(0x44b)],'discordId':_0x2f9f79[_0x568c47(0x445)],'discordUsername':_0x2f9f79[_0x568c47(0x28b)+_0x568c47(0x412)]||'','discordAvatar':_0x2f9f79[_0x568c47(0x381)+_0x568c47(0x434)]||'','role':_0x2f9f79[_0x568c47(0x3f1)],'credits':_0x2f9f79[_0x568c47(0x23f)],'keyprefix':_0x2f9f79[_0x568c47(0x308)]}});}catch(_0x5fd555){console[_0x568c47(0x2c2)](_0x5fd555),_0x5d6dca[_0x568c47(0x34f)](-0x1*-0x2446+-0x2*0xd54+-0x3*0x28e)[_0x568c47(0x3e0)]({'error':_0xedef04[_0x568c47(0x29b)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x357)+_0xe0b05e(0x483),async(_0xfa8b18,_0x2b7a32)=>{const _0x4172c6=_0xe0b05e,_0xcea674={'QYFnE':function(_0x157bce,_0x4e5088){return _0x157bce||_0x4e5088;},'xtylB':_0x4172c6(0x3d4)+_0x4172c6(0x331),'iQhEV':function(_0x4a47ef,_0x115ddd){return _0x4a47ef<_0x115ddd;},'upqbu':_0x4172c6(0x398)+_0x4172c6(0x37a)+_0x4172c6(0x1fe)+_0x4172c6(0x464),'Bowls':_0x4172c6(0x30b)+_0x4172c6(0x353)+_0x4172c6(0x47a),'zUxrm':function(_0x470a41){return _0x470a41();},'HsjjC':_0x4172c6(0x1c6),'XadMD':_0x4172c6(0x25f),'gWtPo':function(_0x45d91b,_0x5a0996){return _0x45d91b(_0x5a0996);},'uOtIV':_0x4172c6(0x261),'gqEYX':_0x4172c6(0x495)+_0x4172c6(0x31f)};try{const {username:_0x1de402,discordId:_0x2c8e02,password:_0x124390}=_0xfa8b18[_0x4172c6(0x257)];if(_0xcea674[_0x4172c6(0x3b2)](!_0x1de402,!_0x2c8e02)||!_0x124390)return _0x2b7a32[_0x4172c6(0x34f)](-0x1f61+-0x238*-0x7+0x1*0x1169)[_0x4172c6(0x3e0)]({'error':_0xcea674[_0x4172c6(0x2fd)]});if(_0xcea674[_0x4172c6(0x1fd)](_0x124390[_0x4172c6(0x198)],0x70e+0x3*0x3da+-0x3a*0x52))return _0x2b7a32[_0x4172c6(0x34f)](-0x2584+0x9cf+0x1d45)[_0x4172c6(0x3e0)]({'error':_0xcea674[_0x4172c6(0x282)]});const _0x566aa1=await User[_0x4172c6(0x19b)]({'username':_0x1de402});if(_0x566aa1)return _0x2b7a32[_0x4172c6(0x34f)](-0x16*0x125+-0x5*-0x36d+0x9a6)[_0x4172c6(0x3e0)]({'error':_0xcea674[_0x4172c6(0x1f6)]});const _0x4209ce=bcrypt[_0x4172c6(0x3bb)](_0x124390,0x842*0x3+-0x396+-0x2*0xa93),_0x690607=_0xcea674[_0x4172c6(0x258)](genId);await User[_0x4172c6(0x275)]({'id':_0x690607,'username':_0x1de402,'discord_id':_0x2c8e02,'password':_0x4209ce,'role':_0xcea674[_0x4172c6(0x446)],'credits':0x0,'key_prefix':null}),await Session[_0x4172c6(0x472)]({'user_id':_0x690607});const _0x58d02e=crypto[_0x4172c6(0x4a0)+'s'](-0x7*0x45d+0x26de+-0x833)[_0x4172c6(0x328)](_0xcea674[_0x4172c6(0x203)]),_0x5da3d1=_0xcea674[_0x4172c6(0x2cf)](hashToken,_0x58d02e),_0xe5d1e4=_0xfa8b18[_0x4172c6(0x225)][_0xcea674[_0x4172c6(0x1fa)]]||'';await Session[_0x4172c6(0x275)]({'user_id':_0x690607,'token_hash':_0x5da3d1,'expires_at':_0xcea674[_0x4172c6(0x2cf)](addDays,0xea9+0x255*-0x1+0xc53*-0x1),'user_agent':_0xe5d1e4[_0x4172c6(0x2c1)](0x1ed5+0x1*0xb48+-0x2a1d,0xee9+0x204+-0x1025)}),_0x2b7a32[_0x4172c6(0x34f)](0x19*0x4b+-0x1ea5+0x1*0x181b)[_0x4172c6(0x3e0)]({'token':_0x58d02e,'user':{'id':_0x690607,'username':_0x1de402,'discordId':_0x2c8e02,'role':_0xcea674[_0x4172c6(0x446)],'credits':0x0,'keyprefix':null}});}catch(_0xb3fb80){console[_0x4172c6(0x2c2)](_0xb3fb80),_0x2b7a32[_0x4172c6(0x34f)](-0x1*0x16a+-0x712+0xa70)[_0x4172c6(0x3e0)]({'error':_0xcea674[_0x4172c6(0x4a8)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x357)+_0xe0b05e(0x377),requireAuth,async(_0x8565e0,_0x20c2f0)=>{const _0x19ee6a=_0xe0b05e,_0x10bc59={'pjiPC':function(_0xbc839c,_0x3a3fab){return _0xbc839c(_0x3a3fab);},'kRVqT':_0x19ee6a(0x219)+_0x19ee6a(0x44c)};try{const _0x4a933a=_0x10bc59[_0x19ee6a(0x19e)](hashToken,_0x8565e0[_0x19ee6a(0x19a)]);await Session[_0x19ee6a(0x3d5)]({'token_hash':_0x4a933a}),_0x20c2f0[_0x19ee6a(0x3e0)]({'ok':!![]});}catch(_0x207f76){_0x20c2f0[_0x19ee6a(0x34f)](0x1476+0x1d6d+-0x2fef)[_0x19ee6a(0x3e0)]({'error':_0x10bc59[_0x19ee6a(0x23d)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x268),requireAuth,async(_0x353d45,_0x59e1e4)=>{const _0x2a0be9=_0xe0b05e,_0x2c7751={'lUklq':_0x2a0be9(0x4b8)+_0x2a0be9(0x2b2)+'.'};try{const _0x4e23b8=await User[_0x2a0be9(0x19b)]({'id':_0x353d45[_0x2a0be9(0x292)]['id']}),_0x11a4c6=await CreditHistory[_0x2a0be9(0x3e1)]({'user_id':_0x353d45[_0x2a0be9(0x292)]['id']})[_0x2a0be9(0x2ee)]({'_id':-(0x9ff+-0x1*0x1c5+-0x839)})[_0x2a0be9(0x26d)](0x1da+0x1af3*0x1+-0x1c9b);_0x59e1e4[_0x2a0be9(0x3e0)]({'id':_0x4e23b8['id'],'username':_0x4e23b8[_0x2a0be9(0x44b)],'discordId':_0x4e23b8[_0x2a0be9(0x445)],'discordUsername':_0x4e23b8[_0x2a0be9(0x28b)+_0x2a0be9(0x412)]||'','discordAvatar':_0x4e23b8[_0x2a0be9(0x381)+_0x2a0be9(0x434)]||'','role':_0x4e23b8[_0x2a0be9(0x3f1)],'credits':_0x4e23b8[_0x2a0be9(0x23f)],'keyprefix':_0x4e23b8[_0x2a0be9(0x308)],'creditHistory':_0x11a4c6[_0x2a0be9(0x2aa)](_0x482516=>({'action':_0x482516[_0x2a0be9(0x1fc)],'amount':_0x482516[_0x2a0be9(0x21e)],'by':_0x482516[_0x2a0be9(0x1a5)],'date':_0x482516[_0x2a0be9(0x42b)]}))});}catch(_0xbbae47){_0x59e1e4[_0x2a0be9(0x34f)](0xc99*0x3+-0x2c5*-0xb+-0x75e*0x9)[_0x2a0be9(0x3e0)]({'error':_0x2c7751[_0x2a0be9(0x22d)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x3e2),requireAuth,async(_0x4e972f,_0x1bb5f8)=>{const _0x4f3fcb=_0xe0b05e,_0x2a4018={'dCrop':function(_0xe50cc9){return _0xe50cc9();},'AmSIa':_0x4f3fcb(0x4b8)+_0x4f3fcb(0x376)+'.'};try{await _0x2a4018[_0x4f3fcb(0x31d)](autoRevoke);const _0x3e76ce=await LicenseKey[_0x4f3fcb(0x3e1)]({'assigned_to':_0x4e972f[_0x4f3fcb(0x292)]['id']})[_0x4f3fcb(0x2ee)]({'created_at':-(0x1d25+0x1a10+-0x3734)});_0x1bb5f8[_0x4f3fcb(0x3e0)](_0x3e76ce[_0x4f3fcb(0x2aa)](formatKey));}catch(_0x24220b){_0x1bb5f8[_0x4f3fcb(0x34f)](0x15b*0x2+-0x222a+0x42d*0x8)[_0x4f3fcb(0x3e0)]({'error':_0x2a4018[_0x4f3fcb(0x40d)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x253)+_0xe0b05e(0x311),requireAuth,async(_0x2b9643,_0x369eba)=>{const _0x6ac864=_0xe0b05e,_0x4c977f={'jtZAs':function(_0x1674a0,_0xe0fc35){return _0x1674a0||_0xe0fc35;},'bVCzW':_0x6ac864(0x3d4)+_0x6ac864(0x331),'kZjaz':function(_0x1fb126,_0x3cbb18){return _0x1fb126(_0x3cbb18);},'BTMFi':function(_0x12cc4c,_0x25aa67){return _0x12cc4c<=_0x25aa67;},'TBLDC':_0x6ac864(0x1e0)+_0x6ac864(0x2ae)+_0x6ac864(0x2f8),'eMdSI':function(_0x5f111e,_0x32d507){return _0x5f111e!==_0x32d507;},'dUaoD':function(_0x5df319,_0x348bd0){return _0x5df319(_0x348bd0);},'LdgWi':_0x6ac864(0x214)+_0x6ac864(0x3c8)+'d.','clrtt':function(_0xc9d9e5){return _0xc9d9e5();},'Skvqh':function(_0x7d0dd0,_0x4c364f){return _0x7d0dd0(_0x4c364f);},'oUcVa':function(_0x2b9dec,_0x2ed777){return _0x2b9dec||_0x2ed777;},'XLstK':_0x6ac864(0x4a4),'ViebQ':_0x6ac864(0x206),'mNECt':function(_0x52accc,_0x4e82aa){return _0x52accc(_0x4e82aa);},'VFWPW':_0x6ac864(0x1f5),'LdkQQ':_0x6ac864(0x4b8)+_0x6ac864(0x204)+_0x6ac864(0x28e)};try{const {systemName:_0x49d460,placeId:_0x5b4639,duration:_0x2ad98e,prefix:_0x4834c0,assignTo:_0x2234ae}=_0x2b9643[_0x6ac864(0x257)];if(_0x4c977f[_0x6ac864(0x2ed)](!_0x49d460,!_0x5b4639)||!_0x4834c0)return _0x369eba[_0x6ac864(0x34f)](-0x2cd+0x1279*0x1+-0xe1c)[_0x6ac864(0x3e0)]({'error':_0x4c977f[_0x6ac864(0x228)]});const _0x283125=await User[_0x6ac864(0x19b)]({'id':_0x2b9643[_0x6ac864(0x292)]['id']});if(!_0x4c977f[_0x6ac864(0x1d9)](isAdminRole,_0x283125[_0x6ac864(0x3f1)])){if(_0x4c977f[_0x6ac864(0x1b8)](_0x283125[_0x6ac864(0x23f)],0x10cf+0x1a*0x8e+0x1*-0x1f3b))return _0x369eba[_0x6ac864(0x34f)](0x1cdc+-0x283*0xb+-0x1*-0x57)[_0x6ac864(0x3e0)]({'error':_0x4c977f[_0x6ac864(0x470)]});if(_0x283125[_0x6ac864(0x308)]&&_0x4c977f[_0x6ac864(0x392)](_0x4834c0[_0x6ac864(0x3af)+'e'](),_0x283125[_0x6ac864(0x308)]))return _0x369eba[_0x6ac864(0x34f)](0x23*0xf4+-0x1*0x1c37+-0x395)[_0x6ac864(0x3e0)]({'error':_0x6ac864(0x399)+_0x6ac864(0x3e6)+_0x6ac864(0x23b)+_0x283125[_0x6ac864(0x308)]});}const _0x20f1c6=_0x4c977f[_0x6ac864(0x49b)](isAdminRole,_0x283125[_0x6ac864(0x3f1)])&&_0x2234ae?_0x2234ae:_0x2b9643[_0x6ac864(0x292)]['id'],_0x443b81=await User[_0x6ac864(0x19b)]({'id':_0x20f1c6});if(!_0x443b81)return _0x369eba[_0x6ac864(0x34f)](0x2*-0xd1+-0x2606+-0x149c*-0x2)[_0x6ac864(0x3e0)]({'error':_0x4c977f[_0x6ac864(0x48d)]});const _0xee64a9=_0x4c977f[_0x6ac864(0x49b)](genKey,_0x4834c0[_0x6ac864(0x3af)+'e']()),_0x2850d9=_0x4c977f[_0x6ac864(0x2ad)](genId),_0x19e081=await LicenseKey[_0x6ac864(0x275)]({'id':_0x2850d9,'system_name':_0x49d460,'server_name':'','place_id':_0x4c977f[_0x6ac864(0x27b)](String,_0x5b4639)[_0x6ac864(0x42c)](),'key_value':_0xee64a9,'assigned_to':_0x20f1c6,'duration':_0x4c977f[_0x6ac864(0x373)](_0x2ad98e,_0x4c977f[_0x6ac864(0x46a)]),'activated':![],'created_by':_0x2b9643[_0x6ac864(0x292)]['id']});!_0x4c977f[_0x6ac864(0x27b)](isAdminRole,_0x283125[_0x6ac864(0x3f1)])&&(await User[_0x6ac864(0x241)]({'id':_0x2b9643[_0x6ac864(0x292)]['id']},{'$inc':{'credits':-(-0x341+0x4c9+-0x187)}}),await CreditHistory[_0x6ac864(0x275)]({'user_id':_0x2b9643[_0x6ac864(0x292)]['id'],'action':_0x4c977f[_0x6ac864(0x28f)],'amount':0x1,'by_user':_0x283125[_0x6ac864(0x44b)],'date':_0x4c977f[_0x6ac864(0x2ad)](today)}));_0x369eba[_0x6ac864(0x34f)](-0x184*0x17+-0x2a0+0x65*0x61)[_0x6ac864(0x3e0)](_0x4c977f[_0x6ac864(0x1f8)](formatKey,_0x19e081));try{await KeyUsage[_0x6ac864(0x275)]({'key_id':_0x2850d9,'key_value':_0xee64a9,'system_name':_0x49d460,'place_id':_0x4c977f[_0x6ac864(0x1d9)](String,_0x5b4639)[_0x6ac864(0x42c)](),'job_id':'','server_name':'','assigned_to':_0x20f1c6,'created_by':_0x2b9643[_0x6ac864(0x292)]['id'],'event':_0x4c977f[_0x6ac864(0x462)],'message':_0x6ac864(0x3ec)+_0x6ac864(0x1e4)+_0x283125[_0x6ac864(0x44b)]});}catch(_0x486f61){}}catch(_0x3bbc0d){console[_0x6ac864(0x2c2)](_0x3bbc0d),_0x369eba[_0x6ac864(0x34f)](0xd3*0xc+-0x1799+0xfa9)[_0x6ac864(0x3e0)]({'error':_0x4c977f[_0x6ac864(0x248)]});}}),app[_0xe0b05e(0x410)](_0xe0b05e(0x253)+_0xe0b05e(0x1d0),requireAuth,async(_0x490d4e,_0x1bfaf9)=>{const _0x414e6a=_0xe0b05e,_0x272644={'JJzXx':_0x414e6a(0x26a)+_0x414e6a(0x2cd),'GGGCN':function(_0x832860,_0x36eeb1){return _0x832860(_0x36eeb1);},'NWDvN':function(_0x14c107,_0x5428cc){return _0x14c107===_0x5428cc;},'ekejp':function(_0x3e0524,_0x5b8c7b){return _0x3e0524+_0x5b8c7b;},'vprNx':function(_0x74c22f,_0x30210b){return _0x74c22f&&_0x30210b;},'RrdJL':_0x414e6a(0x1d3)+_0x414e6a(0x40c)+_0x414e6a(0x4b2)+_0x414e6a(0x39e),'ScIjS':function(_0x5bfe68,_0x1132a4,_0x5f2fd1,_0x3a88fe,_0x4814cb,_0x558caa,_0x417acb){return _0x5bfe68(_0x1132a4,_0x5f2fd1,_0x3a88fe,_0x4814cb,_0x558caa,_0x417acb);},'BSshy':_0x414e6a(0x32e),'fVnMu':_0x414e6a(0x2b8),'Wjwec':_0x414e6a(0x4b8)+_0x414e6a(0x324)+'.'};try{const _0x5d1fee=await LicenseKey[_0x414e6a(0x19b)]({'id':_0x490d4e[_0x414e6a(0x498)]['id']});if(!_0x5d1fee)return _0x1bfaf9[_0x414e6a(0x34f)](-0xa73*-0x3+-0x1*0x19fd+-0x3c8)[_0x414e6a(0x3e0)]({'error':_0x272644[_0x414e6a(0x3ff)]});const _0x2ffd04=await User[_0x414e6a(0x19b)]({'id':_0x490d4e[_0x414e6a(0x292)]['id']});if(!_0x272644[_0x414e6a(0x418)](isStaffOrAbove,_0x2ffd04[_0x414e6a(0x3f1)])){const _0x1ccf7d=_0x272644[_0x414e6a(0x1a2)](_0x5d1fee[_0x414e6a(0x333)+'o'],_0x490d4e[_0x414e6a(0x292)]['id']),_0x1332e1=_0x2ffd04[_0x414e6a(0x308)]&&_0x5d1fee[_0x414e6a(0x288)][_0x414e6a(0x1cb)](_0x272644[_0x414e6a(0x37f)](_0x2ffd04[_0x414e6a(0x308)],'-'));if(_0x272644[_0x414e6a(0x488)](!_0x1ccf7d,!_0x1332e1))return _0x1bfaf9[_0x414e6a(0x34f)](0xed0+-0xb59+-0x79*0x4)[_0x414e6a(0x3e0)]({'error':_0x272644[_0x414e6a(0x2bb)]});}await LicenseKey[_0x414e6a(0x3d5)]({'id':_0x490d4e[_0x414e6a(0x498)]['id']}),await _0x272644[_0x414e6a(0x43e)](logAdmin,_0x490d4e[_0x414e6a(0x292)],_0x272644[_0x414e6a(0x469)],_0x272644[_0x414e6a(0x425)],_0x5d1fee['id'],_0x5d1fee[_0x414e6a(0x288)],_0x414e6a(0x372)+_0x5d1fee[_0x414e6a(0x336)+'e']+(_0x414e6a(0x471)+_0x414e6a(0x45c))+_0x5d1fee[_0x414e6a(0x333)+'o']),_0x1bfaf9[_0x414e6a(0x3e0)]({'ok':!![]});}catch(_0x34eadb){_0x1bfaf9[_0x414e6a(0x34f)](0xed1+-0xa0c+-0x2d1)[_0x414e6a(0x3e0)]({'error':_0x272644[_0x414e6a(0x40b)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x394)+_0xe0b05e(0x382),requireAuth,requireStaff,async(_0x38a556,_0x328db6)=>{const _0x10f661=_0xe0b05e,_0x210ab1={'QEsSx':function(_0x1c689d){return _0x1c689d();},'PrCko':_0x10f661(0x4b8)+_0x10f661(0x376)+'.'};try{await _0x210ab1[_0x10f661(0x286)](autoRevoke);const _0x12d793=await LicenseKey[_0x10f661(0x3e1)]()[_0x10f661(0x2ee)]({'created_at':-(0x1a01*-0x1+-0x63*-0x3b+0x2b*0x13)});_0x328db6[_0x10f661(0x3e0)](_0x12d793[_0x10f661(0x2aa)](formatKey));}catch(_0x37feec){_0x328db6[_0x10f661(0x34f)](0x2194+-0x6c+-0x1f34)[_0x10f661(0x3e0)]({'error':_0x210ab1[_0x10f661(0x1e3)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x394)+_0xe0b05e(0x267),requireAuth,requireCreditGiver,async(_0x2fd022,_0x886c5a)=>{const _0x54a900=_0xe0b05e,_0x524e8d={'XcOnG':_0x54a900(0x3e3),'tFQYN':_0x54a900(0x4b8)+_0x54a900(0x2b2)+'s.'};try{const _0x4207a4=await User[_0x54a900(0x3e1)]()[_0x54a900(0x2ee)]({'created_at':0x1}),_0x30a976=await Session[_0x54a900(0x185)]([{'$match':{'expires_at':{'$gt':new Date()}}},{'$group':{'_id':_0x524e8d[_0x54a900(0x307)],'cnt':{'$sum':0x1}}}]),_0x1eedc8={};_0x30a976[_0x54a900(0x2ab)](_0x318d20=>{const _0x4fe6ee=_0x54a900;_0x1eedc8[_0x318d20[_0x4fe6ee(0x3b0)]]=_0x318d20[_0x4fe6ee(0x1d2)];}),_0x886c5a[_0x54a900(0x3e0)](_0x4207a4[_0x54a900(0x2aa)](_0xc388b0=>({'id':_0xc388b0['id'],'username':_0xc388b0[_0x54a900(0x44b)],'discordId':_0xc388b0[_0x54a900(0x445)],'role':_0xc388b0[_0x54a900(0x3f1)],'credits':_0xc388b0[_0x54a900(0x23f)],'keyprefix':_0xc388b0[_0x54a900(0x308)],'activeSessions':_0x1eedc8[_0xc388b0['id']]||0x1db9*-0x1+0x36*0x97+-0x221})));}catch(_0x18fe26){_0x886c5a[_0x54a900(0x34f)](0x1827+-0x10*0x128+-0x3b3)[_0x54a900(0x3e0)]({'error':_0x524e8d[_0x54a900(0x224)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x394)+_0xe0b05e(0x49a)+_0xe0b05e(0x3c7),requireAuth,requireAdmin,async(_0x29ee3e,_0x523e0a)=>{const _0x14dc35=_0xe0b05e,_0x3e3cc8={'Wiaks':_0x14dc35(0x1a3)+_0x14dc35(0x3c0),'HNZYA':function(_0x5c1bb8,_0x5c0c93){return _0x5c1bb8(_0x5c0c93);},'sFINU':function(_0xcfff0c,_0x1f7df3){return _0xcfff0c(_0x1f7df3);},'TjcrN':_0x14dc35(0x490)+_0x14dc35(0x3bc)+_0x14dc35(0x359)+_0x14dc35(0x344)+_0x14dc35(0x489),'MikKu':function(_0x4fe1ba,_0x234f83){return _0x4fe1ba===_0x234f83;},'vhJWt':_0x14dc35(0x46c),'ZJAub':_0x14dc35(0x490)+_0x14dc35(0x3bc)+_0x14dc35(0x359)+_0x14dc35(0x243)+_0x14dc35(0x322)+_0x14dc35(0x239),'AtuuS':_0x14dc35(0x393),'FVnlK':function(_0x5b262e,_0x337149){return _0x5b262e(_0x337149);},'txiHQ':_0x14dc35(0x490)+_0x14dc35(0x3bc)+_0x14dc35(0x359)+_0x14dc35(0x243)+_0x14dc35(0x1be)+_0x14dc35(0x181),'ubFho':function(_0x35e501,_0x5be8fb){return _0x35e501>=_0x5be8fb;},'SCShX':_0x14dc35(0x2ea)+_0x14dc35(0x499)+_0x14dc35(0x3b9)+_0x14dc35(0x299)+_0x14dc35(0x195)+'n.','osGMw':function(_0xdd45a4,_0x2abbde){return _0xdd45a4>_0x2abbde;},'GOkUa':_0x14dc35(0x3f0),'CYoqF':function(_0x48ebe0){return _0x48ebe0();},'waxWz':function(_0x312d73,_0x560289){return _0x312d73>_0x560289;},'Ldpzk':function(_0x266581,_0x3a0f82,_0x35cbbf,_0x506997,_0x377937,_0x3c5251,_0x345337){return _0x266581(_0x3a0f82,_0x35cbbf,_0x506997,_0x377937,_0x3c5251,_0x345337);},'feeqa':_0x14dc35(0x484),'HqaQV':_0x14dc35(0x292),'oGcxD':_0x14dc35(0x4b8)+_0x14dc35(0x422)};try{const {role:_0x5108c9,addCredits:_0x373041,keyPrefix:_0x129c25}=_0x29ee3e[_0x14dc35(0x257)],_0x1fab96=await User[_0x14dc35(0x19b)]({'id':_0x29ee3e[_0x14dc35(0x292)]['id']}),_0x579220=await User[_0x14dc35(0x19b)]({'id':_0x29ee3e[_0x14dc35(0x498)]['id']});if(!_0x579220)return _0x523e0a[_0x14dc35(0x34f)](-0x72*-0xc+0xcb2+-0x1076)[_0x14dc35(0x3e0)]({'error':_0x3e3cc8[_0x14dc35(0x285)]});if(_0x3e3cc8[_0x14dc35(0x327)](isProtectedTier,_0x579220[_0x14dc35(0x3f1)])&&!_0x3e3cc8[_0x14dc35(0x47e)](isOwnerOrDev,_0x1fab96[_0x14dc35(0x3f1)]))return _0x523e0a[_0x14dc35(0x34f)](-0x852*0x3+0x1*-0x13ba+0x2e43)[_0x14dc35(0x3e0)]({'error':_0x3e3cc8[_0x14dc35(0x415)]});if(_0x3e3cc8[_0x14dc35(0x208)](_0x5108c9,_0x3e3cc8[_0x14dc35(0x1d1)])&&!_0x3e3cc8[_0x14dc35(0x327)](isOwnerOrDev,_0x1fab96[_0x14dc35(0x3f1)]))return _0x523e0a[_0x14dc35(0x34f)](0x1*-0x106c+-0x2132+0x3331)[_0x14dc35(0x3e0)]({'error':_0x3e3cc8[_0x14dc35(0x396)]});if(_0x3e3cc8[_0x14dc35(0x208)](_0x5108c9,_0x3e3cc8[_0x14dc35(0x24a)])&&!_0x3e3cc8[_0x14dc35(0x283)](isOwnerOrDev,_0x1fab96[_0x14dc35(0x3f1)]))return _0x523e0a[_0x14dc35(0x34f)](0xd7*0xa+0x190f+0x4d*-0x6a)[_0x14dc35(0x3e0)]({'error':_0x3e3cc8[_0x14dc35(0x369)]});const _0x59b885={'member':0x0,'Credit\x20Giver':0x1,'Staff':0x2,'Admin':0x3,'Developer':0x4,'Owner':0x4};if(_0x5108c9&&_0x3e3cc8[_0x14dc35(0x247)](_0x59b885[_0x5108c9]??0x17b7*-0x1+-0x1*-0x1d2+0x5f*0x3b,_0x59b885[_0x1fab96[_0x14dc35(0x3f1)]]??-0x97e*0x1+-0x17ff+0x217d)&&!_0x3e3cc8[_0x14dc35(0x47e)](isOwnerOrDev,_0x1fab96[_0x14dc35(0x3f1)]))return _0x523e0a[_0x14dc35(0x34f)](-0x32*0x29+0x5*-0x39d+0x1*0x1ba6)[_0x14dc35(0x3e0)]({'error':_0x3e3cc8[_0x14dc35(0x400)]});const _0x32eac6={};if(_0x5108c9)_0x32eac6[_0x14dc35(0x3f1)]=_0x5108c9;if(_0x129c25)_0x32eac6[_0x14dc35(0x308)]=_0x129c25[_0x14dc35(0x3af)+'e']();const _0x3a7c4b=_0x3e3cc8[_0x14dc35(0x283)](parseInt,_0x373041)||0x2ce+-0x148e+0x11c0,_0x24624d={};if(Object[_0x14dc35(0x3d0)](_0x32eac6)[_0x14dc35(0x198)])_0x24624d[_0x14dc35(0x289)]=_0x32eac6;_0x3e3cc8[_0x14dc35(0x20d)](_0x3a7c4b,0x2441+-0x4*-0x7fe+-0x4439)&&(_0x24624d[_0x14dc35(0x1c1)]={'credits':_0x3a7c4b},await CreditHistory[_0x14dc35(0x275)]({'user_id':_0x579220['id'],'action':_0x3e3cc8[_0x14dc35(0x2c3)],'amount':_0x3a7c4b,'by_user':_0x29ee3e[_0x14dc35(0x292)][_0x14dc35(0x44b)],'date':_0x3e3cc8[_0x14dc35(0x2b9)](today)}));Object[_0x14dc35(0x3d0)](_0x24624d)[_0x14dc35(0x198)]&&await User[_0x14dc35(0x241)]({'id':_0x29ee3e[_0x14dc35(0x498)]['id']},_0x24624d);const _0x3f18bd=await User[_0x14dc35(0x19b)]({'id':_0x29ee3e[_0x14dc35(0x498)]['id']}),_0x25ebbf=[];if(_0x5108c9)_0x25ebbf[_0x14dc35(0x2cb)](_0x14dc35(0x4b5)+_0x5108c9);if(_0x129c25)_0x25ebbf[_0x14dc35(0x2cb)](_0x14dc35(0x4af)+_0x129c25[_0x14dc35(0x3af)+'e']());if(_0x3e3cc8[_0x14dc35(0x1d8)](_0x3a7c4b,0x8b1+0x1160+0x1a11*-0x1))_0x25ebbf[_0x14dc35(0x2cb)]('+'+_0x3a7c4b+_0x14dc35(0x475));await _0x3e3cc8[_0x14dc35(0x442)](logAdmin,_0x29ee3e[_0x14dc35(0x292)],_0x3e3cc8[_0x14dc35(0x4a5)],_0x3e3cc8[_0x14dc35(0x346)],_0x579220['id'],_0x579220[_0x14dc35(0x44b)],_0x25ebbf[_0x14dc35(0x35c)](',\x20')),_0x523e0a[_0x14dc35(0x3e0)]({'ok':!![],'user':{'id':_0x3f18bd['id'],'username':_0x3f18bd[_0x14dc35(0x44b)],'role':_0x3f18bd[_0x14dc35(0x3f1)],'credits':_0x3f18bd[_0x14dc35(0x23f)],'keyprefix':_0x3f18bd[_0x14dc35(0x308)]}});}catch(_0x1dd72d){_0x523e0a[_0x14dc35(0x34f)](-0x21e3+0x1*0xd9e+0x1*0x1639)[_0x14dc35(0x3e0)]({'error':_0x3e3cc8[_0x14dc35(0x4b7)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x394)+_0xe0b05e(0x49a)+_0xe0b05e(0x18c)+_0xe0b05e(0x1db),requireAuth,requireCreditGiver,async(_0x212359,_0x3ee12f)=>{const _0x46001b=_0xe0b05e,_0x2d9ae6={'mewTP':function(_0x382049,_0x2e3927){return _0x382049(_0x2e3927);},'uSKih':_0x46001b(0x3ba)+_0x46001b(0x2d5),'DetpB':_0x46001b(0x1a3)+_0x46001b(0x3c0),'ixZRT':function(_0x2594b6,_0x4571e1){return _0x2594b6<=_0x4571e1;},'COTfL':_0x46001b(0x417)+_0x46001b(0x314),'bonjT':_0x46001b(0x461)+_0x46001b(0x3b8),'JqkqH':_0x46001b(0x3f0),'MplEf':function(_0x160f5c){return _0x160f5c();},'WeuwT':function(_0x4ad88f,_0x5e4718,_0x2c3924,_0x27a1d5,_0x2d8c21,_0x4a4b75,_0x5e14d9){return _0x4ad88f(_0x5e4718,_0x2c3924,_0x27a1d5,_0x2d8c21,_0x4a4b75,_0x5e14d9);},'CyGGz':_0x46001b(0x3a5)+'ts','wBLlv':_0x46001b(0x292),'xIitV':_0x46001b(0x4b8)+_0x46001b(0x354)+_0x46001b(0x2f5)};try{const _0x2704d0=await User[_0x46001b(0x19b)]({'id':_0x212359[_0x46001b(0x292)]['id']});if(!_0x2d9ae6[_0x46001b(0x1a1)](canGiveCredits,_0x2704d0[_0x46001b(0x3f1)]))return _0x3ee12f[_0x46001b(0x34f)](0x168d+-0xb4e*0x1+0x4*-0x26b)[_0x46001b(0x3e0)]({'error':_0x2d9ae6[_0x46001b(0x3cd)]});const _0x5b0faa=await User[_0x46001b(0x19b)]({'id':_0x212359[_0x46001b(0x498)]['id']});if(!_0x5b0faa)return _0x3ee12f[_0x46001b(0x34f)](-0x102d+0x1*0x14ed+-0x1*0x32c)[_0x46001b(0x3e0)]({'error':_0x2d9ae6[_0x46001b(0x3cc)]});const {amount:_0x568f30,keyPrefix:_0x2b91d1}=_0x212359[_0x46001b(0x257)],_0x1ecf4c=_0x2d9ae6[_0x46001b(0x1a1)](parseInt,_0x568f30)||0x2*0x1234+0x145*0x15+0x1*-0x3f11;if(_0x2d9ae6[_0x46001b(0x1aa)](_0x1ecf4c,-0x7*-0xce+-0x77+0x15*-0x3f))return _0x3ee12f[_0x46001b(0x34f)](0xc91*0x1+-0x1a21+0xf20)[_0x46001b(0x3e0)]({'error':_0x2d9ae6[_0x46001b(0x291)]});if(!_0x2b91d1)return _0x3ee12f[_0x46001b(0x34f)](0x867+0x23e+-0xf*0x9b)[_0x46001b(0x3e0)]({'error':_0x2d9ae6[_0x46001b(0x463)]});await User[_0x46001b(0x241)]({'id':_0x5b0faa['id']},{'$inc':{'credits':_0x1ecf4c},'$set':{'key_prefix':_0x2b91d1[_0x46001b(0x3af)+'e']()}}),await CreditHistory[_0x46001b(0x275)]({'user_id':_0x5b0faa['id'],'action':_0x2d9ae6[_0x46001b(0x48c)],'amount':_0x1ecf4c,'by_user':_0x2704d0[_0x46001b(0x44b)],'date':_0x2d9ae6[_0x46001b(0x4a3)](today)}),await _0x2d9ae6[_0x46001b(0x21c)](logAdmin,_0x212359[_0x46001b(0x292)],_0x2d9ae6[_0x46001b(0x37d)],_0x2d9ae6[_0x46001b(0x26c)],_0x5b0faa['id'],_0x5b0faa[_0x46001b(0x44b)],'+'+_0x1ecf4c+(_0x46001b(0x395)+_0x46001b(0x184))+_0x2b91d1[_0x46001b(0x3af)+'e']()),_0x3ee12f[_0x46001b(0x3e0)]({'ok':!![]});}catch(_0x4f00be){_0x3ee12f[_0x46001b(0x34f)](0x2571+-0x2*-0x43f+-0x2bfb)[_0x46001b(0x3e0)]({'error':_0x2d9ae6[_0x46001b(0x1e1)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x394)+_0xe0b05e(0x251)+_0xe0b05e(0x404),requireAuth,requireAdmin,async(_0x9e827f,_0x17ab6a)=>{const _0x3a1a52=_0xe0b05e,_0x51dd69={'olabb':_0x3a1a52(0x269)+_0x3a1a52(0x46b),'naQSV':_0x3a1a52(0x230)+_0x3a1a52(0x3bd),'vKEYf':function(_0x23e35d,_0x1eb99b){return _0x23e35d<_0x1eb99b;},'ZJtth':_0x3a1a52(0x2b6)+_0x3a1a52(0x411)+_0x3a1a52(0x459),'aNFDj':_0x3a1a52(0x48a)+_0x3a1a52(0x1ef)+_0x3a1a52(0x3dd)+_0x3a1a52(0x370),'epAyP':function(_0x18d32c){return _0x18d32c();},'NRYqw':function(_0x1113dd,_0x1464f6){return _0x1113dd(_0x1464f6);},'xJded':function(_0x1301d2,_0x26413b,_0xc8bec6,_0x2e7125,_0x18d1e6,_0x48b6bd,_0x49f556){return _0x1301d2(_0x26413b,_0xc8bec6,_0x2e7125,_0x18d1e6,_0x48b6bd,_0x49f556);},'wNmWx':_0x3a1a52(0x199)+_0x3a1a52(0x209),'KFhhJ':_0x3a1a52(0x25e),'TXSSg':function(_0x3dd702,_0x46426e){return _0x3dd702||_0x46426e;},'rXjHe':_0x3a1a52(0x4b8)+_0x3a1a52(0x385)+_0x3a1a52(0x1b4)};try{const {code:_0xb4bcca,prefix:_0x5011e6,credits:_0x350a1e,maxUses:_0x12b532}=_0x9e827f[_0x3a1a52(0x257)];if(!_0xb4bcca)return _0x17ab6a[_0x3a1a52(0x34f)](-0x187c+0x47d+0x158f)[_0x3a1a52(0x3e0)]({'error':_0x51dd69[_0x3a1a52(0x337)]});if(!_0x5011e6)return _0x17ab6a[_0x3a1a52(0x34f)](-0x314*-0x7+-0x4c7*-0x4+0x1a1*-0x18)[_0x3a1a52(0x3e0)]({'error':_0x51dd69[_0x3a1a52(0x193)]});if(!_0x350a1e||_0x51dd69[_0x3a1a52(0x40e)](_0x350a1e,0x1baa+0x1c50+-0x59*0xa1))return _0x17ab6a[_0x3a1a52(0x34f)](0x17*-0x3f+0xe83*0x1+-0x74a)[_0x3a1a52(0x3e0)]({'error':_0x51dd69[_0x3a1a52(0x2d3)]});const _0x6d7d3c=_0xb4bcca[_0x3a1a52(0x42c)]()[_0x3a1a52(0x3af)+'e'](),_0x21108c=await RedeemCode[_0x3a1a52(0x19b)]({'code':_0x6d7d3c});if(_0x21108c)return _0x17ab6a[_0x3a1a52(0x34f)](-0x256e+0xe*-0x217+0x4449)[_0x3a1a52(0x3e0)]({'error':_0x51dd69[_0x3a1a52(0x1e5)]});const _0x186125=await RedeemCode[_0x3a1a52(0x275)]({'id':_0x51dd69[_0x3a1a52(0x29a)](genId),'code':_0x6d7d3c,'prefix':_0x5011e6[_0x3a1a52(0x42c)]()[_0x3a1a52(0x3af)+'e'](),'credits':_0x51dd69[_0x3a1a52(0x466)](parseInt,_0x350a1e),'maxUses':_0x51dd69[_0x3a1a52(0x466)](parseInt,_0x12b532)||-0x266*-0x4+-0x765+-0x233,'created_by':_0x9e827f[_0x3a1a52(0x292)][_0x3a1a52(0x44b)]});await _0x51dd69[_0x3a1a52(0x48b)](logAdmin,_0x9e827f[_0x3a1a52(0x292)],_0x51dd69[_0x3a1a52(0x3f2)],_0x51dd69[_0x3a1a52(0x41e)],_0x186125['id'],_0x6d7d3c,'+'+_0x350a1e+(_0x3a1a52(0x395)+_0x3a1a52(0x1a4))+_0x5011e6[_0x3a1a52(0x3af)+'e']()+(_0x3a1a52(0x45b)+'s:')+_0x51dd69[_0x3a1a52(0x4b3)](_0x12b532,'∞')),_0x17ab6a[_0x3a1a52(0x3e0)]({'ok':!![],'id':_0x186125['id'],'code':_0x186125[_0x3a1a52(0x2e7)]});}catch(_0x4e8458){_0x17ab6a[_0x3a1a52(0x34f)](-0x2012+0x1*-0x1bef+0x3df5)[_0x3a1a52(0x3e0)]({'error':_0x51dd69[_0x3a1a52(0x32a)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x394)+_0xe0b05e(0x251)+_0xe0b05e(0x404),requireAuth,requireAdmin,async(_0x5c97d1,_0x16ac5e)=>{const _0x2381ac=_0xe0b05e,_0xffe06b={'iSlWd':_0x2381ac(0x4b8)+_0x2381ac(0x41a)+_0x2381ac(0x194)};try{const _0x559000=await RedeemCode[_0x2381ac(0x3e1)]({})[_0x2381ac(0x2ee)]({'created_at':-(0x61*0x2b+0x29+-0x1073)});_0x16ac5e[_0x2381ac(0x3e0)](_0x559000[_0x2381ac(0x2aa)](_0x574dd0=>({'id':_0x574dd0['id'],'code':_0x574dd0[_0x2381ac(0x2e7)],'prefix':_0x574dd0[_0x2381ac(0x455)],'credits':_0x574dd0[_0x2381ac(0x23f)],'maxUses':_0x574dd0[_0x2381ac(0x2d7)],'usedCount':_0x574dd0[_0x2381ac(0x361)],'usesLeft':_0x574dd0[_0x2381ac(0x2d7)]===0x86*0xb+0x1*0x1225+0x1*-0x17e7?Infinity:Math[_0x2381ac(0x3ed)](0x2ed+-0x1*-0xb63+-0xe50,_0x574dd0[_0x2381ac(0x2d7)]-_0x574dd0[_0x2381ac(0x361)]),'createdAt':_0x574dd0[_0x2381ac(0x37e)]})));}catch(_0x49301c){_0x16ac5e[_0x2381ac(0x34f)](0x25a5+0x1*0x99d+0x6*-0x78d)[_0x2381ac(0x3e0)]({'error':_0xffe06b[_0x2381ac(0x31b)]});}}),app[_0xe0b05e(0x410)](_0xe0b05e(0x394)+_0xe0b05e(0x251)+_0xe0b05e(0x2a3),requireAuth,requireAdmin,async(_0x5b5b5f,_0x323154)=>{const _0x2f074f=_0xe0b05e,_0x4cfc11={'LfgDN':_0x2f074f(0x38b)+_0x2f074f(0x3c6)+'d.','MTDnA':function(_0x2e2972,_0x334ed5,_0x31e42b,_0x39061d,_0x549edd,_0x17865f,_0x469957){return _0x2e2972(_0x334ed5,_0x31e42b,_0x39061d,_0x549edd,_0x17865f,_0x469957);},'OVfAk':_0x2f074f(0x3c1)+_0x2f074f(0x209),'uClfP':_0x2f074f(0x25e),'jiOAB':_0x2f074f(0x4b8)+_0x2f074f(0x1bb)+_0x2f074f(0x1b4)};try{const _0x1f005f=await RedeemCode[_0x2f074f(0x19b)]({'id':_0x5b5b5f[_0x2f074f(0x498)]['id']});if(!_0x1f005f)return _0x323154[_0x2f074f(0x34f)](-0xf4f*0x1+0x1c5*0x2+-0x43*-0x33)[_0x2f074f(0x3e0)]({'error':_0x4cfc11[_0x2f074f(0x320)]});await RedeemCode[_0x2f074f(0x3d5)]({'id':_0x1f005f['id']}),await _0x4cfc11[_0x2f074f(0x1ee)](logAdmin,_0x5b5b5f[_0x2f074f(0x292)],_0x4cfc11[_0x2f074f(0x272)],_0x4cfc11[_0x2f074f(0x31c)],_0x1f005f['id'],_0x1f005f[_0x2f074f(0x2e7)],''),_0x323154[_0x2f074f(0x3e0)]({'ok':!![]});}catch(_0x25c46f){_0x323154[_0x2f074f(0x34f)](-0x1369*-0x1+0x1*0x21ee+-0x3363)[_0x2f074f(0x3e0)]({'error':_0x4cfc11[_0x2f074f(0x1bf)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x460)+_0xe0b05e(0x33c),requireAuth,async(_0x26915f,_0xb36561)=>{const _0x232f92=_0xe0b05e,_0x5b63ba={'yEqYv':_0x232f92(0x423)+_0x232f92(0x3c4),'UorZr':_0x232f92(0x1cf)+_0x232f92(0x3b6)+_0x232f92(0x3c3),'FeXyN':_0x232f92(0x35e)+_0x232f92(0x232)+_0x232f92(0x41c)+_0x232f92(0x28a),'VQHgH':function(_0x2d85dd,_0x572b43){return _0x2d85dd>_0x572b43;},'ifsqT':function(_0x116a53,_0x5e7d42){return _0x116a53>=_0x5e7d42;},'ekhEw':_0x232f92(0x18a)+_0x232f92(0x259)+_0x232f92(0x2fe)+_0x232f92(0x2a9),'yiGHR':function(_0x129807,_0x155674){return _0x129807===_0x155674;},'jAhEd':function(_0x3a7e3d,_0x4235a6){return _0x3a7e3d-_0x4235a6;},'WpIOl':_0x232f92(0x4b8)+_0x232f92(0x3ca)+_0x232f92(0x39a)};try{const {code:_0x55c988}=_0x26915f[_0x232f92(0x32f)];if(!_0x55c988)return _0xb36561[_0x232f92(0x34f)](0x96+-0x4a*-0x41+-0x11d0)[_0x232f92(0x3e0)]({'error':_0x5b63ba[_0x232f92(0x485)]});const _0x3c6c17=await RedeemCode[_0x232f92(0x19b)]({'code':_0x55c988[_0x232f92(0x42c)]()[_0x232f92(0x3af)+'e']()});if(!_0x3c6c17)return _0xb36561[_0x232f92(0x34f)](0x6e+0x8e2+-0x5a*0x16)[_0x232f92(0x3e0)]({'error':_0x5b63ba[_0x232f92(0x2c6)]});if(_0x3c6c17[_0x232f92(0x252)][_0x232f92(0x426)](_0x26915f[_0x232f92(0x292)]['id']))return _0xb36561[_0x232f92(0x34f)](0x303*0x6+-0x1*0x8f7+0x1f*-0x3e)[_0x232f92(0x3e0)]({'error':_0x5b63ba[_0x232f92(0x49e)]});if(_0x5b63ba[_0x232f92(0x2a6)](_0x3c6c17[_0x232f92(0x2d7)],0x1d93+0x2b*-0x1a+-0x1935)&&_0x5b63ba[_0x232f92(0x367)](_0x3c6c17[_0x232f92(0x361)],_0x3c6c17[_0x232f92(0x2d7)]))return _0xb36561[_0x232f92(0x34f)](-0x8ed*0x1+-0x1469+0x1ef0)[_0x232f92(0x3e0)]({'error':_0x5b63ba[_0x232f92(0x452)]});_0xb36561[_0x232f92(0x3e0)]({'code':_0x3c6c17[_0x232f92(0x2e7)],'credits':_0x3c6c17[_0x232f92(0x23f)],'prefix':_0x3c6c17[_0x232f92(0x455)],'maxUses':_0x3c6c17[_0x232f92(0x2d7)],'usesLeft':_0x5b63ba[_0x232f92(0x207)](_0x3c6c17[_0x232f92(0x2d7)],0x27e*-0xf+-0x1009+0x356b)?0x5*-0xa7+0x1*-0x240b+0x274e:_0x5b63ba[_0x232f92(0x2a0)](_0x3c6c17[_0x232f92(0x2d7)],_0x3c6c17[_0x232f92(0x361)])});}catch(_0x22364c){_0xb36561[_0x232f92(0x34f)](0x57c+-0x3*-0x81b+-0x1bd9)[_0x232f92(0x3e0)]({'error':_0x5b63ba[_0x232f92(0x474)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x460)+'m',requireAuth,async(_0x1e3875,_0x1f1a7f)=>{const _0x38c9a0=_0xe0b05e,_0x2cad9f={'DkKFr':_0x38c9a0(0x423)+_0x38c9a0(0x3c4),'ZqWDv':_0x38c9a0(0x1cf)+_0x38c9a0(0x3b6)+_0x38c9a0(0x3c3),'HJcRR':_0x38c9a0(0x35e)+_0x38c9a0(0x232)+_0x38c9a0(0x41c)+_0x38c9a0(0x28a),'bIRKo':function(_0x21d38f,_0x245298){return _0x21d38f>_0x245298;},'wfemg':function(_0xaf3cab,_0x11fffc){return _0xaf3cab>=_0x11fffc;},'YuRJT':_0x38c9a0(0x18a)+_0x38c9a0(0x259)+_0x38c9a0(0x2fe)+_0x38c9a0(0x2a9),'nJLYN':_0x38c9a0(0x44f),'KXJIT':function(_0x3fa62c){return _0x3fa62c();},'cMZMa':function(_0x1a11b3,_0x121e89,_0x5d9380,_0x12ee73,_0x1fb977,_0x47edb9,_0x19104f){return _0x1a11b3(_0x121e89,_0x5d9380,_0x12ee73,_0x1fb977,_0x47edb9,_0x19104f);},'puVCq':_0x38c9a0(0x421)+'e','zyafh':_0x38c9a0(0x25e),'lknCG':_0x38c9a0(0x4b8)+_0x38c9a0(0x453)+'e.'};try{const {code:_0x18ba50}=_0x1e3875[_0x38c9a0(0x257)];if(!_0x18ba50)return _0x1f1a7f[_0x38c9a0(0x34f)](-0x8*-0x26b+0xf5c+-0x2124)[_0x38c9a0(0x3e0)]({'error':_0x2cad9f[_0x38c9a0(0x24c)]});const _0x4c4f50=await RedeemCode[_0x38c9a0(0x19b)]({'code':_0x18ba50[_0x38c9a0(0x42c)]()[_0x38c9a0(0x3af)+'e']()});if(!_0x4c4f50)return _0x1f1a7f[_0x38c9a0(0x34f)](0x177d*-0x1+-0x92f+0x2240)[_0x38c9a0(0x3e0)]({'error':_0x2cad9f[_0x38c9a0(0x345)]});if(_0x4c4f50[_0x38c9a0(0x252)][_0x38c9a0(0x426)](_0x1e3875[_0x38c9a0(0x292)]['id']))return _0x1f1a7f[_0x38c9a0(0x34f)](-0x10*0x9f+-0x6*-0x38f+-0x167*0x7)[_0x38c9a0(0x3e0)]({'error':_0x2cad9f[_0x38c9a0(0x42e)]});if(_0x2cad9f[_0x38c9a0(0x221)](_0x4c4f50[_0x38c9a0(0x2d7)],0x864+0x1bc1+-0x2425*0x1)&&_0x2cad9f[_0x38c9a0(0x281)](_0x4c4f50[_0x38c9a0(0x361)],_0x4c4f50[_0x38c9a0(0x2d7)]))return _0x1f1a7f[_0x38c9a0(0x34f)](0x1*0xce3+0x39*0x1+-0x3d6*0x3)[_0x38c9a0(0x3e0)]({'error':_0x2cad9f[_0x38c9a0(0x18d)]});await User[_0x38c9a0(0x241)]({'id':_0x1e3875[_0x38c9a0(0x292)]['id']},{'$inc':{'credits':_0x4c4f50[_0x38c9a0(0x23f)]},'$set':{'key_prefix':_0x4c4f50[_0x38c9a0(0x455)]}}),await CreditHistory[_0x38c9a0(0x275)]({'user_id':_0x1e3875[_0x38c9a0(0x292)]['id'],'action':_0x2cad9f[_0x38c9a0(0x481)],'amount':_0x4c4f50[_0x38c9a0(0x23f)],'by_user':_0x38c9a0(0x3eb)+_0x4c4f50[_0x38c9a0(0x2e7)],'date':_0x2cad9f[_0x38c9a0(0x319)](today)}),await RedeemCode[_0x38c9a0(0x241)]({'id':_0x4c4f50['id']},{'$inc':{'usedCount':0x1},'$push':{'usedBy':_0x1e3875[_0x38c9a0(0x292)]['id']}}),await _0x2cad9f[_0x38c9a0(0x4b0)](logAdmin,{'id':_0x1e3875[_0x38c9a0(0x292)]['id'],'username':_0x1e3875[_0x38c9a0(0x292)][_0x38c9a0(0x44b)]},_0x2cad9f[_0x38c9a0(0x22c)],_0x2cad9f[_0x38c9a0(0x3e8)],_0x4c4f50['id'],_0x4c4f50[_0x38c9a0(0x2e7)],_0x38c9a0(0x1c2)+_0x1e3875[_0x38c9a0(0x292)][_0x38c9a0(0x44b)]+(_0x38c9a0(0x387)+'+')+_0x4c4f50[_0x38c9a0(0x23f)]+(_0x38c9a0(0x395)+_0x38c9a0(0x1a4))+_0x4c4f50[_0x38c9a0(0x455)]),_0x1f1a7f[_0x38c9a0(0x3e0)]({'ok':!![],'credits':_0x4c4f50[_0x38c9a0(0x23f)],'prefix':_0x4c4f50[_0x38c9a0(0x455)]});}catch(_0x335d75){console[_0x38c9a0(0x2c2)](_0x335d75),_0x1f1a7f[_0x38c9a0(0x34f)](-0x1516+-0x17c9+-0x1*-0x2ed3)[_0x38c9a0(0x3e0)]({'error':_0x2cad9f[_0x38c9a0(0x2f7)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x394)+_0xe0b05e(0x49a)+_0xe0b05e(0x19d)+_0xe0b05e(0x27a),requireAuth,requireStaff,async(_0x3e1ce6,_0x193c6d)=>{const _0x3a7e17=_0xe0b05e,_0x4ecf1d={'Dggxf':_0x3a7e17(0x1a3)+_0x3a7e17(0x3c0),'OiDAl':function(_0x3f09a1,_0x1b7e6b){return _0x3f09a1(_0x1b7e6b);},'UQEGO':function(_0x22194e,_0x167a31){return _0x22194e(_0x167a31);},'ZkYVl':_0x3a7e17(0x490)+_0x3a7e17(0x3bc)+_0x3a7e17(0x359)+_0x3a7e17(0x379)+_0x3a7e17(0x21a)+_0x3a7e17(0x424),'RFJxV':function(_0x1c4830,_0xfd8150,_0x11c844,_0x68acba,_0x4f3cbf,_0x183d28,_0x13d048){return _0x1c4830(_0xfd8150,_0x11c844,_0x68acba,_0x4f3cbf,_0x183d28,_0x13d048);},'WpnCw':_0x3a7e17(0x300)+'on','JMQqT':_0x3a7e17(0x292),'BQVTG':_0x3a7e17(0x188)+_0x3a7e17(0x2e1),'OXbSy':_0x3a7e17(0x4b8)+_0x3a7e17(0x17e)+_0x3a7e17(0x2e3)};try{const _0x25f7a9=await User[_0x3a7e17(0x19b)]({'id':_0x3e1ce6[_0x3a7e17(0x498)]['id']});if(!_0x25f7a9)return _0x193c6d[_0x3a7e17(0x34f)](0xa89*0x1+-0x6*-0x9c+0xc9d*-0x1)[_0x3a7e17(0x3e0)]({'error':_0x4ecf1d[_0x3a7e17(0x21b)]});if(_0x4ecf1d[_0x3a7e17(0x246)](isProtectedTier,_0x25f7a9[_0x3a7e17(0x3f1)])&&!_0x4ecf1d[_0x3a7e17(0x3f8)](isOwnerOrDev,_0x3e1ce6[_0x3a7e17(0x292)][_0x3a7e17(0x3f1)]))return _0x193c6d[_0x3a7e17(0x34f)](0x1*0x1969+-0x2211+-0xa3b*-0x1)[_0x3a7e17(0x3e0)]({'error':_0x4ecf1d[_0x3a7e17(0x190)]});await Session[_0x3a7e17(0x472)]({'user_id':_0x3e1ce6[_0x3a7e17(0x498)]['id']}),await _0x4ecf1d[_0x3a7e17(0x375)](logAdmin,_0x3e1ce6[_0x3a7e17(0x292)],_0x4ecf1d[_0x3a7e17(0x216)],_0x4ecf1d[_0x3a7e17(0x2a7)],_0x25f7a9['id'],_0x25f7a9[_0x3a7e17(0x44b)],_0x4ecf1d[_0x3a7e17(0x21d)]),_0x193c6d[_0x3a7e17(0x3e0)]({'ok':!![]});}catch(_0x50e4f9){_0x193c6d[_0x3a7e17(0x34f)](0x1*0x1aa6+0x1d85+-0x3637)[_0x3a7e17(0x3e0)]({'error':_0x4ecf1d[_0x3a7e17(0x363)]});}}),app[_0xe0b05e(0x410)](_0xe0b05e(0x394)+_0xe0b05e(0x49a),requireAuth,requireStaff,async(_0x48556f,_0xc066ed)=>{const _0x1d1134=_0xe0b05e,_0x251239={'IArDN':_0x1d1134(0x1a3)+_0x1d1134(0x3c0),'XPKmh':function(_0x5668b8,_0x341bc8){return _0x5668b8===_0x341bc8;},'KrSfQ':_0x1d1134(0x2ea)+_0x1d1134(0x491)+_0x1d1134(0x312)+_0x1d1134(0x402),'VQmip':function(_0x30b1e3,_0x100b3f){return _0x30b1e3(_0x100b3f);},'uawub':_0x1d1134(0x1d4)+_0x1d1134(0x2a1)+_0x1d1134(0x3a0)+_0x1d1134(0x1a0)+_0x1d1134(0x28c),'fexsH':_0x1d1134(0x332),'PZIyu':_0x1d1134(0x490)+_0x1d1134(0x3bc)+_0x1d1134(0x359)+_0x1d1134(0x309)+_0x1d1134(0x34c)+_0x1d1134(0x402),'wLGiA':function(_0x35fe1a,_0x2a9ef9,_0x1cc882,_0x48be5f,_0x3c6a63,_0x591663,_0xe6cf93){return _0x35fe1a(_0x2a9ef9,_0x1cc882,_0x48be5f,_0x3c6a63,_0x591663,_0xe6cf93);},'nBbYK':_0x1d1134(0x260)+'r','sxUrj':_0x1d1134(0x292),'gzHMo':_0x1d1134(0x4b8)+_0x1d1134(0x473)+'r.'};try{const _0x1a046c=await User[_0x1d1134(0x19b)]({'id':_0x48556f[_0x1d1134(0x498)]['id']});if(!_0x1a046c)return _0xc066ed[_0x1d1134(0x34f)](-0x1ede+-0x1e08+-0x1f3d*-0x2)[_0x1d1134(0x3e0)]({'error':_0x251239[_0x1d1134(0x255)]});if(_0x251239[_0x1d1134(0x2d2)](_0x1a046c['id'],_0x48556f[_0x1d1134(0x292)]['id']))return _0xc066ed[_0x1d1134(0x34f)](0xa67*0x1+0x16ec+-0x1fc3)[_0x1d1134(0x3e0)]({'error':_0x251239[_0x1d1134(0x3a6)]});if(_0x251239[_0x1d1134(0x1f4)](isProtectedTier,_0x1a046c[_0x1d1134(0x3f1)]))return _0xc066ed[_0x1d1134(0x34f)](0x15ce*0x1+0xdf*0x1+0x25*-0x92)[_0x1d1134(0x3e0)]({'error':_0x251239[_0x1d1134(0x22b)]});if(_0x251239[_0x1d1134(0x2d2)](_0x1a046c[_0x1d1134(0x3f1)],_0x251239[_0x1d1134(0x240)])&&!_0x251239[_0x1d1134(0x1f4)](isOwnerOrDev,_0x48556f[_0x1d1134(0x292)][_0x1d1134(0x3f1)]))return _0xc066ed[_0x1d1134(0x34f)](0x10a+0x1fc+-0x173)[_0x1d1134(0x3e0)]({'error':_0x251239[_0x1d1134(0x479)]});await Session[_0x1d1134(0x472)]({'user_id':_0x1a046c['id']}),await LicenseKey[_0x1d1134(0x472)]({'assigned_to':_0x1a046c['id']}),await CreditHistory[_0x1d1134(0x472)]({'user_id':_0x1a046c['id']}),await User[_0x1d1134(0x3d5)]({'id':_0x1a046c['id']}),await _0x251239[_0x1d1134(0x1da)](logAdmin,_0x48556f[_0x1d1134(0x292)],_0x251239[_0x1d1134(0x3e5)],_0x251239[_0x1d1134(0x36d)],_0x1a046c['id'],_0x1a046c[_0x1d1134(0x44b)],_0x1d1134(0x334)+_0x1a046c[_0x1d1134(0x3f1)]),_0xc066ed[_0x1d1134(0x3e0)]({'ok':!![],'deleted':_0x1a046c[_0x1d1134(0x44b)]});}catch(_0x153f86){console[_0x1d1134(0x2c2)](_0x153f86),_0xc066ed[_0x1d1134(0x34f)](0x3bb*0xa+0xbdc+0x179b*-0x2)[_0x1d1134(0x3e0)]({'error':_0x251239[_0x1d1134(0x266)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x394)+_0xe0b05e(0x49a)+_0xe0b05e(0x3c2)+_0xe0b05e(0x20f),requireAuth,requireAdmin,async(_0x3e23b2,_0x3a00be)=>{const _0x32d2fc=_0xe0b05e,_0x44ba80={'iXuPj':function(_0x573bf6,_0x3ee469){return _0x573bf6<_0x3ee469;},'gviBN':_0x32d2fc(0x398)+_0x32d2fc(0x37a)+_0x32d2fc(0x1fe)+_0x32d2fc(0x464),'pqMOA':_0x32d2fc(0x1a3)+_0x32d2fc(0x3c0),'zCadM':function(_0x383f17,_0x2f89d1){return _0x383f17(_0x2f89d1);},'vZLEw':function(_0x41ed7e,_0x1e5a8b){return _0x41ed7e(_0x1e5a8b);},'UwrGw':_0x32d2fc(0x231)+_0x32d2fc(0x3f7)+_0x32d2fc(0x313)+_0x32d2fc(0x3b1),'jhSCt':function(_0x181cfc,_0x247455,_0x204bf3,_0x44ef25,_0x37853b,_0x348eba,_0x30ed8b){return _0x181cfc(_0x247455,_0x204bf3,_0x44ef25,_0x37853b,_0x348eba,_0x30ed8b);},'HXrAO':_0x32d2fc(0x34a)+_0x32d2fc(0x1e6),'Pmfmr':_0x32d2fc(0x292),'LZbbH':_0x32d2fc(0x27d)+_0x32d2fc(0x478),'APJTd':_0x32d2fc(0x4b8)+_0x32d2fc(0x213)+_0x32d2fc(0x497)};try{const {newPassword:_0x101b8c}=_0x3e23b2[_0x32d2fc(0x257)];if(!_0x101b8c||_0x44ba80[_0x32d2fc(0x397)](_0x101b8c[_0x32d2fc(0x198)],-0x1*-0x1933+-0x2a4+-0x1*0x1687))return _0x3a00be[_0x32d2fc(0x34f)](0x3*0xc0b+0x667+0x39*-0xb8)[_0x32d2fc(0x3e0)]({'error':_0x44ba80[_0x32d2fc(0x211)]});const _0x57bef5=await User[_0x32d2fc(0x19b)]({'id':_0x3e23b2[_0x32d2fc(0x498)]['id']});if(!_0x57bef5)return _0x3a00be[_0x32d2fc(0x34f)](-0x3a8+-0x2688+0x4*0xaf1)[_0x32d2fc(0x3e0)]({'error':_0x44ba80[_0x32d2fc(0x3a1)]});if(_0x44ba80[_0x32d2fc(0x1b9)](isProtectedTier,_0x57bef5[_0x32d2fc(0x3f1)])&&!_0x44ba80[_0x32d2fc(0x348)](isOwnerOrDev,_0x3e23b2[_0x32d2fc(0x292)][_0x32d2fc(0x3f1)]))return _0x3a00be[_0x32d2fc(0x34f)](0x44f+0x175+-0x431)[_0x32d2fc(0x3e0)]({'error':_0x44ba80[_0x32d2fc(0x366)]});const _0x416e1f=bcrypt[_0x32d2fc(0x3bb)](_0x101b8c,0x729*0x3+0x9fa*0x3+-0x335f);await User[_0x32d2fc(0x241)]({'id':_0x57bef5['id']},{'$set':{'password':_0x416e1f}}),await Session[_0x32d2fc(0x472)]({'user_id':_0x57bef5['id']}),await _0x44ba80[_0x32d2fc(0x273)](logAdmin,_0x3e23b2[_0x32d2fc(0x292)],_0x44ba80[_0x32d2fc(0x196)],_0x44ba80[_0x32d2fc(0x3ad)],_0x57bef5['id'],_0x57bef5[_0x32d2fc(0x44b)],_0x44ba80[_0x32d2fc(0x3ea)]),_0x3a00be[_0x32d2fc(0x3e0)]({'ok':!![]});}catch(_0x343884){console[_0x32d2fc(0x2c2)](_0x343884),_0x3a00be[_0x32d2fc(0x34f)](0x139*0x18+-0x2216+0x6b2)[_0x32d2fc(0x3e0)]({'error':_0x44ba80[_0x32d2fc(0x2c5)]});}}),app[_0xe0b05e(0x36b)](_0xe0b05e(0x227)+'y',async(_0x2092ea,_0x3a6fc7)=>{const _0xc56cc6=_0xe0b05e,_0x363fa4={'ACiES':_0xc56cc6(0x3f9),'DuSfe':function(_0x178c1b,_0x54adf3){return _0x178c1b||_0x54adf3;},'xGwdw':function(_0x448175,_0x7334bf){return _0x448175||_0x7334bf;},'SQzXu':_0xc56cc6(0x347)+_0xc56cc6(0x2be),'JiehI':function(_0x3027a2,_0x2dc441){return _0x3027a2(_0x2dc441);},'kjqja':function(_0x49b99e,_0x452674){return _0x49b99e(_0x452674);},'WzCRJ':function(_0x3a30b8,_0x4ceae6,_0x9b8b2b){return _0x3a30b8(_0x4ceae6,_0x9b8b2b);},'fMNPR':_0xc56cc6(0x212),'dbzAk':_0xc56cc6(0x2f2)+'y','ZJSjp':_0xc56cc6(0x1ca),'PuxGy':function(_0x393e17,_0x32c379){return _0x393e17!==_0x32c379;},'IhGVa':_0xc56cc6(0x1af)+_0xc56cc6(0x457),'LTNaZ':function(_0x59487a,_0x5d78af){return _0x59487a<_0x5d78af;},'lsPMH':function(_0x1146dd,_0x549550,_0xb5abc6){return _0x1146dd(_0x549550,_0xb5abc6);},'yyifw':_0xc56cc6(0x4b4),'BleAz':function(_0x28a5be,_0x58451e){return _0x28a5be===_0x58451e;},'EEpRv':_0xc56cc6(0x3b5),'IBQdT':function(_0x304676,_0x2fd80){return _0x304676===_0x2fd80;},'BKnrS':_0xc56cc6(0x222),'bmfSI':function(_0x46ba39,_0x570c74){return _0x46ba39===_0x570c74;},'dZibZ':_0xc56cc6(0x49f),'GXoYb':_0xc56cc6(0x38f),'fWnBw':_0xc56cc6(0x186)+_0xc56cc6(0x2ff),'PycAC':_0xc56cc6(0x45e),'SKszy':_0xc56cc6(0x35f),'jTVDk':function(_0xa53364,_0x96fe69){return _0xa53364-_0x96fe69;},'NzmOX':function(_0x516069,_0x59b95f){return _0x516069*_0x59b95f;},'GBgNz':function(_0x31f1fb,_0x2212da){return _0x31f1fb*_0x2212da;},'Tbhza':_0xc56cc6(0x271),'IyvaM':function(_0x3d5ffe,_0x308429,_0x19a652){return _0x3d5ffe(_0x308429,_0x19a652);},'mrRPG':_0xc56cc6(0x2bd),'kPpQo':_0xc56cc6(0x25b)+'or'};try{const {key:_0xa1cbab,placeId:_0x36b264,serverName:_0x527d8f,jobId:_0x3caaa0}=_0x2092ea[_0xc56cc6(0x257)];if(_0x363fa4[_0xc56cc6(0x374)](!_0xa1cbab,!_0x36b264))return _0x3a6fc7[_0xc56cc6(0x34f)](0x1*0x1c42+0x13e5+-0x2e97)[_0xc56cc6(0x3e0)]({'valid':![],'message':_0x363fa4[_0xc56cc6(0x444)]});const _0x37285e=_0x363fa4[_0xc56cc6(0x36e)](String,_0xa1cbab)[_0xc56cc6(0x42c)](),_0x189db0=_0x363fa4[_0xc56cc6(0x3d1)](String,_0x36b264)[_0xc56cc6(0x42c)](),_0x2523b6=await LicenseKey[_0xc56cc6(0x19b)]({'key_value':_0x37285e});async function _0x42fd4c(_0x22acbb,_0x5eaff4){const _0x44f46c=_0xc56cc6;try{await KeyUsage[_0x44f46c(0x275)]({'key_id':_0x2523b6?_0x2523b6['id']:_0x363fa4[_0x44f46c(0x358)],'key_value':_0x37285e,'system_name':_0x2523b6?_0x2523b6[_0x44f46c(0x336)+'e']:'','place_id':_0x189db0,'job_id':_0x363fa4[_0x44f46c(0x4ba)](_0x3caaa0,'')[_0x44f46c(0x2c1)](0x1c2b+0x114+-0x1*0x1d3f,-0x1*-0x1685+-0x1ab9+0x484),'server_name':_0x363fa4[_0x44f46c(0x4ba)](_0x527d8f,'')[_0x44f46c(0x2c1)](0x3*-0x833+0x46*0x69+-0x75*0x9,-0xa58+0xa7b*0x2+0x4d*-0x22),'assigned_to':_0x2523b6?_0x2523b6[_0x44f46c(0x333)+'o']:'','created_by':_0x2523b6?_0x2523b6[_0x44f46c(0x325)]:'','event':_0x22acbb,'message':_0x5eaff4});}catch(_0x5f5c4b){}}if(!_0x2523b6)return await _0x363fa4[_0xc56cc6(0x19c)](_0x42fd4c,_0x363fa4[_0xc56cc6(0x1cd)],_0x363fa4[_0xc56cc6(0x1ce)]),_0x3a6fc7[_0xc56cc6(0x3e0)]({'valid':![],'message':_0x363fa4[_0xc56cc6(0x1ce)]});if(_0x2523b6[_0xc56cc6(0x1ca)])return await _0x363fa4[_0xc56cc6(0x19c)](_0x42fd4c,_0x363fa4[_0xc56cc6(0x1cd)],_0x363fa4[_0xc56cc6(0x187)]),_0x3a6fc7[_0xc56cc6(0x3e0)]({'valid':![],'message':_0x363fa4[_0xc56cc6(0x187)]});if(_0x363fa4[_0xc56cc6(0x408)](_0x2523b6[_0xc56cc6(0x3be)][_0xc56cc6(0x42c)](),_0x189db0))return await _0x363fa4[_0xc56cc6(0x19c)](_0x42fd4c,_0x363fa4[_0xc56cc6(0x1cd)],_0xc56cc6(0x1af)+_0xc56cc6(0x1b1)+_0xc56cc6(0x304)+_0x2523b6[_0xc56cc6(0x3be)]+_0xc56cc6(0x2fb)+_0x189db0),_0x3a6fc7[_0xc56cc6(0x3e0)]({'valid':![],'message':_0x363fa4[_0xc56cc6(0x329)]});if(_0x2523b6[_0xc56cc6(0x45e)]&&_0x2523b6[_0xc56cc6(0x448)]&&_0x363fa4[_0xc56cc6(0x2df)](new Date(_0x2523b6[_0xc56cc6(0x448)]),new Date()))return await LicenseKey[_0xc56cc6(0x241)]({'id':_0x2523b6['id']},{'$set':{'revoked':!![]}}),await _0x363fa4[_0xc56cc6(0x2e4)](_0x42fd4c,_0x363fa4[_0xc56cc6(0x1cd)],_0x363fa4[_0xc56cc6(0x30e)]),_0x3a6fc7[_0xc56cc6(0x3e0)]({'valid':![],'message':_0x363fa4[_0xc56cc6(0x30e)]});if(!_0x2523b6[_0xc56cc6(0x45e)]){let _0x4ad9f3=null;const _0x2558df=_0x2523b6[_0xc56cc6(0x1c0)];if(_0x363fa4[_0xc56cc6(0x39d)](_0x2558df,_0x363fa4[_0xc56cc6(0x4bb)])||_0x363fa4[_0xc56cc6(0x18b)](_0x2558df,_0x363fa4[_0xc56cc6(0x3a8)]))_0x4ad9f3=_0x363fa4[_0xc56cc6(0x3d1)](addDays,0x1b1*0x13+-0x56*0x18+-0x1*0x17f5);else{if(_0x363fa4[_0xc56cc6(0x182)](_0x2558df,'7d')||_0x363fa4[_0xc56cc6(0x18b)](_0x2558df,_0x363fa4[_0xc56cc6(0x1f0)]))_0x4ad9f3=_0x363fa4[_0xc56cc6(0x36e)](addDays,0x1dde+0x23fe+0x41d5*-0x1);else{if(_0x363fa4[_0xc56cc6(0x182)](_0x2558df,'3d')||_0x363fa4[_0xc56cc6(0x182)](_0x2558df,_0x363fa4[_0xc56cc6(0x371)]))_0x4ad9f3=_0x363fa4[_0xc56cc6(0x36e)](addDays,-0x20bf+-0x2363+0x4425);else{if(_0x363fa4[_0xc56cc6(0x182)](_0x2558df,'1d'))_0x4ad9f3=_0x363fa4[_0xc56cc6(0x3d1)](addDays,0x86+-0x63f+0x5ba);}}}const _0x49315a=_0x363fa4[_0xc56cc6(0x4ba)](_0x527d8f,_0x363fa4[_0xc56cc6(0x17f)])[_0xc56cc6(0x2c1)](-0x5*-0x551+0x1*-0x15fc+-0x499,0x86*-0x47+-0x12d*0x7+0x2dc9);await LicenseKey[_0xc56cc6(0x241)]({'id':_0x2523b6['id']},{'$set':{'activated':!![],'activated_at':new Date(),'server_name':_0x49315a,'job_id':_0x363fa4[_0xc56cc6(0x374)](_0x3caaa0,'')[_0xc56cc6(0x2c1)](0x5*-0x26b+-0x15fd+0xc*0x2d7,0x23d7*0x1+0x224c+-0x45d3),'expires_at':_0x4ad9f3}});const _0x5d16e0=await LicenseKey[_0xc56cc6(0x19b)]({'id':_0x2523b6['id']});return await _0x363fa4[_0xc56cc6(0x2e4)](_0x42fd4c,_0x363fa4[_0xc56cc6(0x36f)],_0x363fa4[_0xc56cc6(0x44d)]),_0x3a6fc7[_0xc56cc6(0x3e0)]({'valid':!![],'message':_0x363fa4[_0xc56cc6(0x36f)],'expiresAt':_0x5d16e0[_0xc56cc6(0x448)]});}const _0x395be4=new Date(_0x363fa4[_0xc56cc6(0x2b4)](Date[_0xc56cc6(0x3b3)](),_0x363fa4[_0xc56cc6(0x2f6)](_0x363fa4[_0xc56cc6(0x23c)](-0x12ec+0x34*-0x7b+-0x41*-0xad,0x1ecd*-0x1+0xb5*-0x19+-0x2*-0x185b),0x1d5*-0x1+-0x97a+-0x13*-0xcd))),_0x56f190=await KeyUsage[_0xc56cc6(0x19b)]({'key_id':_0x2523b6['id'],'job_id':_0x363fa4[_0xc56cc6(0x4ba)](_0x3caaa0,'')[_0xc56cc6(0x2c1)](-0x1867+-0x1*-0x20ca+0x13*-0x71,-0x5b8*-0x5+0x198c+0x35d4*-0x1),'event':_0x363fa4[_0xc56cc6(0x3f5)],'timestamp':{'$gt':_0x395be4}});if(!_0x56f190)await _0x363fa4[_0xc56cc6(0x205)](_0x42fd4c,_0x363fa4[_0xc56cc6(0x3f5)],_0xc56cc6(0x1a9)+_0x363fa4[_0xc56cc6(0x374)](_0x527d8f,_0x363fa4[_0xc56cc6(0x431)])[_0xc56cc6(0x2c1)](0x11c1+-0x23be+0x11fd*0x1,0x1*0xf5c+-0x15c7+0xd*0x83));return _0x3a6fc7[_0xc56cc6(0x3e0)]({'valid':!![],'message':'ok','expiresAt':_0x2523b6[_0xc56cc6(0x448)]});}catch(_0x5d398d){console[_0xc56cc6(0x2c2)](_0x5d398d),_0x3a6fc7[_0xc56cc6(0x34f)](-0x55*0x17+0x1976*-0x1+0x230d)[_0xc56cc6(0x3e0)]({'valid':![],'message':_0x363fa4[_0xc56cc6(0x3da)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x1b7)+_0xe0b05e(0x482),requireAuth,async(_0x35d4c6,_0x564de1)=>{const _0x515ca0=_0xe0b05e,_0x14e557={'LVxCK':function(_0x4e5b7d,_0x2bcab9){return _0x4e5b7d(_0x2bcab9);},'TrXKl':_0x515ca0(0x288),'TmQZu':_0x515ca0(0x212),'uOjOW':_0x515ca0(0x4b8)+_0x515ca0(0x42f)+_0x515ca0(0x43b)};try{const _0x3829a5=Math[_0x515ca0(0x254)](_0x14e557[_0x515ca0(0x3f4)](parseInt,_0x35d4c6[_0x515ca0(0x32f)][_0x515ca0(0x26d)])||-0x23*-0x92+-0x1*-0x3b2+-0x1776,-0x30a+0x25f8+-0x2226),_0x57d045=await LicenseKey[_0x515ca0(0x3e1)]({'assigned_to':_0x35d4c6[_0x515ca0(0x292)]['id']})[_0x515ca0(0x1c9)](_0x14e557[_0x515ca0(0x30c)]),_0x43e7e0=_0x57d045[_0x515ca0(0x2aa)](_0x4bab84=>_0x4bab84[_0x515ca0(0x288)]),_0x142c1f=await KeyUsage[_0x515ca0(0x3e1)]({'$or':[{'assigned_to':_0x35d4c6[_0x515ca0(0x292)]['id']},{'created_by':_0x35d4c6[_0x515ca0(0x292)]['id']},{'event':_0x14e557[_0x515ca0(0x284)],'key_value':{'$in':_0x43e7e0}}]})[_0x515ca0(0x2ee)]({'timestamp':-(-0x1da*0x4+-0x137*-0x6+-0x1*-0x1f)})[_0x515ca0(0x26d)](_0x3829a5);_0x564de1[_0x515ca0(0x3e0)](_0x142c1f[_0x515ca0(0x2aa)](_0x79097=>({'id':_0x79097[_0x515ca0(0x3b0)],'keyId':_0x79097[_0x515ca0(0x2f3)],'keyValue':_0x79097[_0x515ca0(0x288)],'systemName':_0x79097[_0x515ca0(0x336)+'e'],'placeId':_0x79097[_0x515ca0(0x3be)],'jobId':_0x79097[_0x515ca0(0x1b3)],'serverName':_0x79097[_0x515ca0(0x2f4)+'e'],'assignedTo':_0x79097[_0x515ca0(0x333)+'o'],'createdBy':_0x79097[_0x515ca0(0x325)],'event':_0x79097[_0x515ca0(0x4ae)],'message':_0x79097[_0x515ca0(0x3e9)],'timestamp':_0x79097[_0x515ca0(0x4bc)]})));}catch(_0x3a77ff){_0x564de1[_0x515ca0(0x34f)](0xba5+-0x17a9*-0x1+0x3*-0xb1e)[_0x515ca0(0x3e0)]({'error':_0x14e557[_0x515ca0(0x18e)]});}}),app[_0xe0b05e(0x410)](_0xe0b05e(0x1b7)+_0xe0b05e(0x482),requireAuth,async(_0x9c6874,_0x43e6e0)=>{const _0x240f2b=_0xe0b05e,_0x450df1={'wvuKy':_0x240f2b(0x4b8)+_0x240f2b(0x28d)+_0x240f2b(0x43b)};try{await KeyUsage[_0x240f2b(0x472)]({'assigned_to':_0x9c6874[_0x240f2b(0x292)]['id']}),_0x43e6e0[_0x240f2b(0x3e0)]({'ok':!![]});}catch(_0x40659b){_0x43e6e0[_0x240f2b(0x34f)](-0x1*-0xa8b+-0x14d3+-0x9*-0x15c)[_0x240f2b(0x3e0)]({'error':_0x450df1[_0x240f2b(0x287)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x394)+_0xe0b05e(0x1dc),requireAuth,requireAdmin,async(_0x3cf017,_0x410b32)=>{const _0x3cd687=_0xe0b05e,_0x277550={'CkXig':function(_0x1c00c4,_0x34228d){return _0x1c00c4(_0x34228d);},'fNHCq':_0x3cd687(0x4b8)+_0x3cd687(0x3c5)+_0x3cd687(0x38d)};try{const _0x13331d=Math[_0x3cd687(0x254)](_0x277550[_0x3cd687(0x2e8)](parseInt,_0x3cf017[_0x3cd687(0x32f)][_0x3cd687(0x26d)])||0x5b*-0x58+-0x269b+-0x3*-0x176d,-0xced*-0x3+-0x153b+-0xf98),_0x33498b=_0x3cf017[_0x3cd687(0x32f)][_0x3cd687(0x22a)]||null,_0x13712d=_0x33498b?{'actor_id':_0x33498b}:{},_0x374a91=await AdminLog[_0x3cd687(0x3e1)](_0x13712d)[_0x3cd687(0x2ee)]({'timestamp':-(0x1dd0+-0x1ed+-0x1be2)})[_0x3cd687(0x26d)](_0x13331d);_0x410b32[_0x3cd687(0x3e0)](_0x374a91[_0x3cd687(0x2aa)](_0xc9f7a6=>({'id':_0xc9f7a6[_0x3cd687(0x3b0)],'actorId':_0xc9f7a6[_0x3cd687(0x297)],'actorName':_0xc9f7a6[_0x3cd687(0x2c8)+_0x3cd687(0x191)],'action':_0xc9f7a6[_0x3cd687(0x1fc)],'targetType':_0xc9f7a6[_0x3cd687(0x301)+'e'],'targetId':_0xc9f7a6[_0x3cd687(0x3d2)],'targetLabel':_0xc9f7a6[_0x3cd687(0x4a2)+'el'],'details':_0xc9f7a6[_0x3cd687(0x3a7)],'timestamp':_0xc9f7a6[_0x3cd687(0x4bc)]})));}catch(_0x497537){_0x410b32[_0x3cd687(0x34f)](-0x1cb8+0x1da4+0xc*0x16)[_0x3cd687(0x3e0)]({'error':_0x277550[_0x3cd687(0x303)]});}}),app[_0xe0b05e(0x410)](_0xe0b05e(0x394)+_0xe0b05e(0x1dc),requireAuth,async(_0x454a31,_0xb5ac0b)=>{const _0x4f4ed9=_0xe0b05e,_0x1af2d9={'ToxxW':function(_0x427d53,_0x1c12fa){return _0x427d53(_0x1c12fa);},'abTqR':_0x4f4ed9(0x294)+_0x4f4ed9(0x409)+_0x4f4ed9(0x3d8),'ZQySB':_0x4f4ed9(0x4b8)+_0x4f4ed9(0x2de)+_0x4f4ed9(0x38d)};if(!_0x1af2d9[_0x4f4ed9(0x21f)](isOwnerOrDev,_0x454a31[_0x4f4ed9(0x292)][_0x4f4ed9(0x3f1)]))return _0xb5ac0b[_0x4f4ed9(0x34f)](0x1*-0x16e7+-0x1*-0x4cb+-0x1*-0x13af)[_0x4f4ed9(0x3e0)]({'error':_0x1af2d9[_0x4f4ed9(0x405)]});try{await AdminLog[_0x4f4ed9(0x472)]({}),_0xb5ac0b[_0x4f4ed9(0x3e0)]({'ok':!![]});}catch(_0x443706){_0xb5ac0b[_0x4f4ed9(0x34f)](-0x1*0x20a2+0x1*0xbe1+-0x1*-0x16b5)[_0x4f4ed9(0x3e0)]({'error':_0x1af2d9[_0x4f4ed9(0x26e)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x394)+_0xe0b05e(0x3ee),requireAuth,requireStaff,async(_0x911c25,_0x2faa9a)=>{const _0x2d27b6=_0xe0b05e,_0x5b16cd={'FTbNO':function(_0x1ea7f3,_0x3ec982){return _0x1ea7f3(_0x3ec982);},'ShrYJ':_0x2d27b6(0x4b8)+_0x2d27b6(0x42f)+_0x2d27b6(0x43b)};try{const _0x143902=Math[_0x2d27b6(0x254)](_0x5b16cd[_0x2d27b6(0x3fe)](parseInt,_0x911c25[_0x2d27b6(0x32f)][_0x2d27b6(0x26d)])||-0xaf+0x11*-0x1a6+0x97*0x31,-0xc61+-0x1edb+0x2c04),_0x239495=_0x911c25[_0x2d27b6(0x32f)][_0x2d27b6(0x2af)]||null,_0x1f7bb9=_0x239495?{'key_id':_0x239495}:{},_0x355019=await KeyUsage[_0x2d27b6(0x3e1)](_0x1f7bb9)[_0x2d27b6(0x2ee)]({'timestamp':-(0xe25+0xd1c+-0x1b40)})[_0x2d27b6(0x26d)](_0x143902);_0x2faa9a[_0x2d27b6(0x3e0)](_0x355019[_0x2d27b6(0x2aa)](_0x2fbd5d=>({'id':_0x2fbd5d[_0x2d27b6(0x3b0)],'keyId':_0x2fbd5d[_0x2d27b6(0x2f3)],'keyValue':_0x2fbd5d[_0x2d27b6(0x288)],'systemName':_0x2fbd5d[_0x2d27b6(0x336)+'e'],'placeId':_0x2fbd5d[_0x2d27b6(0x3be)],'jobId':_0x2fbd5d[_0x2d27b6(0x1b3)],'serverName':_0x2fbd5d[_0x2d27b6(0x2f4)+'e'],'assignedTo':_0x2fbd5d[_0x2d27b6(0x333)+'o'],'createdBy':_0x2fbd5d[_0x2d27b6(0x325)],'event':_0x2fbd5d[_0x2d27b6(0x4ae)],'message':_0x2fbd5d[_0x2d27b6(0x3e9)],'timestamp':_0x2fbd5d[_0x2d27b6(0x4bc)]})));}catch(_0x561d28){_0x2faa9a[_0x2d27b6(0x34f)](-0x1*0x19b1+0x263b+-0xa96)[_0x2d27b6(0x3e0)]({'error':_0x5b16cd[_0x2d27b6(0x43d)]});}}),app[_0xe0b05e(0x256)](_0xe0b05e(0x394)+_0xe0b05e(0x3a3),requireAuth,requireAdmin,async(_0x32e48a,_0x79c2a0)=>{const _0x3289e0=_0xe0b05e,_0x3d9b67={'jnkeK':function(_0x1d86f4,_0x5d75f5){return _0x1d86f4(_0x5d75f5);},'qSCzW':_0x3289e0(0x212),'pGNqy':_0x3289e0(0x4b8)+_0x3289e0(0x1ac)+_0x3289e0(0x386)};try{const _0x5862b1=Math[_0x3289e0(0x254)](_0x3d9b67[_0x3289e0(0x1f3)](parseInt,_0x32e48a[_0x3289e0(0x32f)][_0x3289e0(0x26d)])||0x1a3a+-0x1*-0xa7f+-0x2455*0x1,-0x1*-0x7fa+-0x1*0xdc6+0x7c0),_0x3ca418=await KeyUsage[_0x3289e0(0x3e1)]({'event':_0x3d9b67[_0x3289e0(0x413)]})[_0x3289e0(0x2ee)]({'timestamp':-(-0x5*-0x18a+-0x7*0xa3+-0x33c)})[_0x3289e0(0x26d)](_0x5862b1);_0x79c2a0[_0x3289e0(0x3e0)](_0x3ca418[_0x3289e0(0x2aa)](_0x25c977=>({'id':_0x25c977[_0x3289e0(0x3b0)],'keyId':_0x25c977[_0x3289e0(0x2f3)],'keyValue':_0x25c977[_0x3289e0(0x288)],'systemName':_0x25c977[_0x3289e0(0x336)+'e'],'placeId':_0x25c977[_0x3289e0(0x3be)],'jobId':_0x25c977[_0x3289e0(0x1b3)],'serverName':_0x25c977[_0x3289e0(0x2f4)+'e'],'assignedTo':_0x25c977[_0x3289e0(0x333)+'o'],'createdBy':_0x25c977[_0x3289e0(0x325)],'event':_0x25c977[_0x3289e0(0x4ae)],'message':_0x25c977[_0x3289e0(0x3e9)],'timestamp':_0x25c977[_0x3289e0(0x4bc)]})));}catch(_0x5af864){_0x79c2a0[_0x3289e0(0x34f)](-0x5*-0x78d+-0x19*0x59+-0x1b1c)[_0x3289e0(0x3e0)]({'error':_0x3d9b67[_0x3289e0(0x202)]});}}),app[_0xe0b05e(0x410)](_0xe0b05e(0x394)+_0xe0b05e(0x3ee),requireAuth,requireAdmin,async(_0x354b63,_0x25cd93)=>{const _0x49091d=_0xe0b05e,_0x1891be={'LLAFt':_0x49091d(0x4b8)+_0x49091d(0x28d)+_0x49091d(0x43b)};try{await KeyUsage[_0x49091d(0x472)]({}),_0x25cd93[_0x49091d(0x3e0)]({'ok':!![]});}catch(_0x5d55fd){_0x25cd93[_0x49091d(0x34f)](-0x988+0x23c9+-0x184d)[_0x49091d(0x3e0)]({'error':_0x1891be[_0x49091d(0x33f)]});}});function formatKey(_0x2f8527){const _0x4d34cc=_0xe0b05e;return{'id':_0x2f8527['id'],'systemName':_0x2f8527[_0x4d34cc(0x336)+'e'],'serverName':_0x2f8527[_0x4d34cc(0x2f4)+'e'],'placeid':_0x2f8527[_0x4d34cc(0x3be)],'key':_0x2f8527[_0x4d34cc(0x288)],'assignedTo':_0x2f8527[_0x4d34cc(0x333)+'o'],'duration':_0x2f8527[_0x4d34cc(0x1c0)],'activated':!!_0x2f8527[_0x4d34cc(0x45e)],'activatedAt':_0x2f8527[_0x4d34cc(0x295)+'at'],'expiresAt':_0x2f8527[_0x4d34cc(0x448)],'revoked':!!_0x2f8527[_0x4d34cc(0x1ca)],'jobId':_0x2f8527[_0x4d34cc(0x1b3)],'createdBy':_0x2f8527[_0x4d34cc(0x325)],'createdAt':_0x2f8527[_0x4d34cc(0x37e)]};}app[_0xe0b05e(0x256)](_0xe0b05e(0x293),(_0x505604,_0x1893cd)=>{const _0x36ff14=_0xe0b05e,_0x575101={'aZnrF':_0x36ff14(0x26b),'lhyGk':_0x36ff14(0x47c),'uZUHi':_0x36ff14(0x47b)+_0x36ff14(0x36c)+_0x36ff14(0x46f)+_0x36ff14(0x477)+_0x36ff14(0x3fc)+_0x36ff14(0x2d1)},_0x5a4d5d=path[_0x36ff14(0x35c)](frontendDir,_0x575101[_0x36ff14(0x1e8)],_0x575101[_0x36ff14(0x440)]);fs[_0x36ff14(0x32b)](_0x5a4d5d)?_0x1893cd[_0x36ff14(0x317)](_0x5a4d5d):_0x1893cd[_0x36ff14(0x34f)](0xaa2+-0xb04+0x1f6)[_0x36ff14(0x42d)](_0x575101[_0x36ff14(0x3b7)]);}),app[_0xe0b05e(0x256)]('*',(_0x4a2e41,_0x578671)=>{const _0x2d42be=_0xe0b05e,_0x537fc1={'zrLLv':_0x2d42be(0x47c),'wnjXV':_0x2d42be(0x407)},_0x53508d=path[_0x2d42be(0x35c)](frontendDir,_0x537fc1[_0x2d42be(0x419)]);fs[_0x2d42be(0x32b)](_0x53508d)?_0x578671[_0x2d42be(0x317)](_0x53508d):_0x578671[_0x2d42be(0x34f)](-0x8e1+0x1*0x124f+-0x7da)[_0x2d42be(0x42d)](_0x537fc1[_0x2d42be(0x27f)]);}),connectDB()[_0xe0b05e(0x48f)](()=>{const _0x4251cc=_0xe0b05e,_0x3577b6={'rgSuX':_0x4251cc(0x3e4)+'d'};app[_0x4251cc(0x33a)](PORT,()=>{const _0x148d35=_0x4251cc;console[_0x148d35(0x23a)](_0x148d35(0x4ac)+_0x148d35(0x416)+_0x148d35(0x2c9)+_0x148d35(0x47f)+_0x148d35(0x2b1)+PORT),console[_0x148d35(0x23a)](_0x148d35(0x340)+':\x20'+MONGO_URI),console[_0x148d35(0x23a)](_0x148d35(0x2ca)+_0x148d35(0x265)+_0x148d35(0x197)+path[_0x148d35(0x35c)](__dirname,_0x3577b6[_0x148d35(0x262)])+'\x0a');});});function _0x1236(){const _0x4b2f9a=['edit\x20user.','Code\x20requi','\x20session.','fVnMu','includes','Cnfaj','_failed','RedeemCode','5104fdNZnS','date','trim','send','HJcRR','fetch\x20acti','-01.1rorwv','mrRPG','ZNgVF','ABCDEFGHIJ','atar','ess','Schema','UHCHU','vWlvV','NcKOI','QrsID','vity.','gKJLf','ShrYJ','ScIjS','TXnDr','lhyGk','uth\x20not\x20co','Ldpzk','createHash','SQzXu','discord_id','HsjjC','→\x20Network\x20','expires_at','\x20fix:\x20Mong','167fysmtY','username','led.','SKszy','BWhja','Redeemed','api/oauth2','1378265291','ekhEw','redeem\x20cod','Access\x20→\x20A','prefix','querySrv','ace_id','/api/downl','east\x201.','@me','\x20|\x20max\x20use','d\x20to:\x20','vmDpI','activated','oDB\x20Atlas\x20','/api/redee','Key\x20prefix','VFWPW','bonjT','aracters.','password','NRYqw','LicenseKey','RICKi','BSshy','XLstK','quired.','Owner','rnCtJ','download','\x20Make\x20sure','TBLDC','\x20|\x20Assigne','deleteMany','delete\x20use','WpIOl','\x20credits','net:27017,','\x20dashboard','orce-reset','PZIyu','en.','Dashboard\x20','index.html','ZIE','sFINU','n\x20http://l','User','nJLYN','ity','register','edit_user','yEqYv','phHaA','ufffC','vprNx','\x20account.','A\x20code\x20wit','xJded','JqkqH','LdgWi','oken=','then','Only\x20an\x20Ow','\x20delete\x20yo','456789','avatar','vh.mongodb','Registrati','s-shard-00','word.','params','\x20assign\x20a\x20','/users/:id','dUaoD','P@ac-so0dr','ed/avatars','FeXyN','1week','randomByte','discord-oa','target_lab','MplEf','permanent','feeqa','QsPih','lGRGK','gqEYX','xalted_db_','exit','bove\x20only.','\x0a🛡️\x20\x20KantoH','GeHNh','event','prefix→','cMZMa','/authorize','your\x20own\x20k','TXSSg','expired','role→','VOwwt','oGcxD','Failed\x20to\x20','jLlxI','DuSfe','EEpRv','timestamp','uth\x20error:','RFURl','kick\x20sessi','fWnBw','KLMNOPQRST','r\x20role.','bmfSI','WpSSN','\x20prefix:\x20','aggregate','Roblox\x20Ser','ZJSjp','Force-logg','OmmqM','This\x20code\x20','IBQdT','/give-cred','YuRJT','uOjOW','nuCoj','ZkYVl','name','fADAT','naQSV','m\x20codes.','ve\x20your\x20ow','HXrAO','rom:\x20','length','create_red','token','findOne','WzCRJ','/kick-sess','pjiPC','https://di','loper\x20acco','mewTP','NWDvN','User\x20not\x20f','\x20prefix:','by_user','FXZRA','discord/ca','hyQsX','Server:\x20','ixZRT','UeDOw','fetch\x20deni','eplicaSet=','750500fQRFSB','invalid_pl','Restored\x20O','ace_id|exp','replace','job_id','eem\x20code.','14004fjXWMI','?discord_e','/api/activ','BTMFi','zCadM','lAiLK','delete\x20red','ake\x20sure\x20m','KeyUsage','e\x20Develope','jiOAB','duration','$inc','User\x20','n\x20failed:','eaogW','Staff','member','smJeh','name\x20or\x20pa','select','revoked','startsWith','Credit\x20Giv','fMNPR','dbzAk','Invalid\x20or',':id','vhJWt','cnt','You\x20can\x20on','Cannot\x20del','KyuVC','pName=Clus','getDate','waxWz','kZjaz','wLGiA','its','/audit-log','rror=serve','czDzZ','bcryptjs','No\x20credits','xIitV','scord.com/','PrCko','ted\x20by\x20','aNFDj','word','wner\x20role:','aZnrF','frontend\x20f','\x20\x20→\x20Local\x20','llback','downloads','Login\x20fail','MTDnA','h\x20that\x20nam','dZibZ','EbrFa','AYGTa','jnkeK','VQmip','generated','Bowls','toISOStrin','mNECt','split','uOtIV','ongod\x20is\x20r','action','iQhEV','least\x208\x20ch','ssword.','ken\x20exchan','fTaJq','pGNqy','XadMD','generate\x20k','IyvaM','Used','yiGHR','MikKu','eem_code','et:27017/?','authorizat','index','osGMw','POST','ord','eRudV','gviBN','denied','reset\x20pass','Target\x20use','ClEQm','WpnCw','Session','XUsgT','Logout\x20fai','\x20account\x27s','Dggxf','WeuwT','BQVTG','amount','ToxxW','pired.\x20Ple','bIRKo','1month','OoMRi','tFQYN','headers','wTEGU','/api/verif','bVCzW','r_error','actor','uawub','puVCq','lUklq','\x20(testing\x20','tjLUF','Prefix\x20is\x20','Cannot\x20res','lready\x20red','Session\x20ex','static','File\x20not\x20f','EY_SYSTEM.','YWyLR','setDate','le.','log','efix:\x20','GBgNz','kRVqT','0-00.1rorw','credits','fexsH','updateOne','AdminLog','\x20assign\x20th','ase\x20log\x20in','KDGth','OiDAl','ubFho','LdkQQ','DcoPi','AtuuS','ssl=true&r','DkKFr','.net:27017','gQNwA','floor','MongoDB:\x20m','/redeem-co','usedBy','/api/keys/','min','IArDN','get','body','zUxrm','has\x20been\x20f','pp.com/emb','server_err','BpWPo','model','redeem','hex','delete_use','user-agent','rgSuX','qFbST','BrmFY','d\x20served\x20f','gzHMo','/users','/api/me','Code\x20is\x20re','Key\x20not\x20fo','dashboard','wBLlv','limit','ZQySB','Ytssy','rcSkh','heartbeat','OVfAk','jhSCt','0.0.0/0\x20to','create','ticated.','user_id','KDTvg','http://loc','ion','Skvqh','JWlSo','Password\x20f','365496IDgvlT','wnjXV','Discord\x20OA','wfemg','upqbu','FVnlK','TmQZu','Wiaks','QEsSx','wvuKy','key_value','$set','\x20code.','discord_us','unt.','clear\x20acti','ey.','ViebQ','2539432bpaKnx','COTfL','user','/dashboard','Owner\x20or\x20D','activated_','\x20allow\x20all','actor_id','mongoose','\x20to\x20or\x20abo','epAyP','dRpkQ','user:uQyvW','LaulS','bzFhp','YURVx','jAhEd','ete\x20an\x20Own','path','des/:id','wYJGF','Void','VQHgH','JMQqT','digest','med.','map','forEach','MisNK','clrtt','\x20left.\x20Ask','keyId','&authSourc','ocalhost:','fetch\x20user','crypto','jTVDk','connected','Credits\x20mu','?discord_t','key','CYoqF','nfigured.','RrdJL','RWnal','Unknown','nfig','Zie','DAcej','slice','error','GOkUa','HrFqe','APJTd','UorZr','xSGMs','actor_user','\x20running\x20o','\x20\x20\x20Fronten','push','unning\x0a','und.','✓\x20MongoDB\x20','gWtPo','dTgzw','l\x20exists.','XPKmh','ZJtth','\x0a✗\x20MongoDB','ion.','oad/licens','maxUses','02.1rorwvh','755777047','xSF6VwmUBk','ISGTv','\x0a\x20\x20→\x20Atlas','ter0','clear\x20audi','LTNaZ','pnaWe','ed\x20out','updateMany','on.','lsPMH','\x20\x20→\x20Add\x20YO','uth','code','CkXig','ATsNr','You\x20cannot','216045njcREY','atlas-8xze','jtZAs','sort','applicatio','https://cd','xNinq','invalid_ke','key_id','server_nam','ts.','NzmOX','lknCG','\x20an\x20admin.','express','access_tok','|got:',',ac-so0dry','xtylB','ully\x20redee','ver','kick_sessi','target_typ','NnoyE','fNHCq','ected:','CcUlY','3308EYCagq','XcOnG','key_prefix','\x20delete\x20an','system','Username\x20a','TrXKl','alhost:','yyifw','ZjyDX','KANTOHUB_K','generate','ur\x20own\x20acc','eveloper\x20p','t\x20be\x20>\x200.','/token','Seeded\x20Own','sendFile','pp.com/ava','KXJIT','Discord\x20to','iSlWd','uClfP','dCrop','128','on\x20failed.','LfgDN','✓\x20Serving\x20','e\x20Owner\x20ro','ocice','revoke\x20key','created_by','ac-so0drys','HNZYA','toString','IhGVa','rXjHe','existsSync','hCTzA','IyVKt','revoke_key','query','ge\x20failed:','l\x20fields.','Admin','assigned_t','Role\x20was:\x20','-shard-00-','system_nam','olabb','\x20IP,\x20or\x200.','identify','listen','Auth\x20error','m/preview','use','uJyCF','LLAFt','\x20\x20\x20MongoDB','mongodb://','.png?size=','connect','\x20edit\x20this','ZqWDv','HqaQV','missing_co','vZLEw','.mongodb.n','reset_pass','xAtOJ','\x20Admin\x20acc','ezcxb','095543870','status','api/users/','IttpV','VuXAw','lready\x20tak','give\x20credi','ECONNREFUS','rm-urlenco','/api/auth/','ACiES','eloper\x20can','mPnYa','dc-shard-0','join','kENDa','You\x20have\x20a','first_use','.png','usedCount','cors','OXbSy','1329294797','PkITY','UwrGw','ifsqT','ion_code','txiHQ','n.discorda','post','not\x20found.','sxUrj','JiehI','PycAC','exists.','GXoYb','System:\x20','oUcVa','xGwdw','RFJxV','fetch\x20keys','logout','TlIfo','\x20kick\x20this','ust\x20be\x20at\x20','n/x-www-fo','VOID','CyGGz','created_at','ekejp','JqQAm','discord_av','/keys','ELuGQ','collectore','create\x20red','ed\x20events.','\x20redeemed\x20','Not\x20authen','rbxm','ory','Redeem\x20cod','vOZKa','t\x20log.','UVWXYZ0123','3days','Wrong\x20user','ys-shard-0','eMdSI','Developer','/api/admin','\x20credits\x20|','ZJAub','iXuPj','Password\x20m','Use\x20your\x20a','de.','VbSts','compareSyn','BleAz','eys.','Admin\x20only','er\x20or\x20Deve','pqMOA','1852224uAHGkM','/denied','ywfoF','give_credi','KrSfQ','details','BKnrS','rror=no_co','eXYiF','XdXLb','discord','Pmfmr','e=admin&ap','toUpperCas','_id','assword.','QYFnE','now','er:\x20','30d','\x20expired\x20c','uZUHi','\x20required.','role\x20equal','No\x20permiss','hashSync','ner\x20or\x20Dev','required.','place_id','gRnyK','ound.','delete_red','/set-passw','ode.','red.','fetch\x20audi','e\x20not\x20foun','/edit','r\x20not\x20foun','WrrnK','preview\x20co','h.mongodb.','DetpB','uSKih','\x20again.','IzqVY','keys','kjqja','target_id','sha256','Fill\x20in\x20al','deleteOne','update','login','nly.','UR\x20current','kPpQo','lCItq','rror:','e\x20already\x20','hiKGG','kiOVn','json','find','/api/keys','$user_id','../fronten','nBbYK','ssigned\x20pr','ed.','zyafh','message','LZbbH','Code:\x20','Key\x20genera','max','/activity','khtSI','Given','role','wNmWx','ded','LVxCK','Tbhza','\x20connectio','et\x20Owner/D','UQEGO','unknown','rror=token','Bearer\x20','/index.htm','tars/','FTbNO','JJzXx','SCShX','CreditHist','ount.','Download\x20e','des','abTqR','random','Not\x20found.','PuxGy','eveloper\x20o','redirect','Wjwec','ly\x20revoke\x20','AmSIa','vKEYf','yqEGS','delete','st\x20be\x20at\x20l','ername','qSCzW','wUWzj','TjcrN','ub\x20backend','Amount\x20mus','GGGCN','zrLLv','load\x20redee','dd\x20IP\x20Addr','eemed\x20this','global_nam','KFhhJ','Staff\x20or\x20a','only)','redeem_cod'];_0x1236=function(){return _0x4b2f9a;};return _0x1236();}
+/**
+ * KantoHub License System — Backend v3
+ * Node.js + Express + Mongoose (MongoDB)
+ *
+ * Routes:
+ *   POST /api/auth/login
+ *   POST /api/auth/register
+ *   POST /api/auth/logout
+ *
+ *   GET  /api/me
+ *   GET  /api/keys          (own keys)
+ *   POST /api/keys/generate
+ *   DELETE /api/keys/:id
+ *
+ *   GET  /api/admin/keys    (all keys — admin only)
+ *   GET  /api/admin/users   (all users — admin only)
+ *   POST /api/admin/users/:id/edit
+ *   POST /api/admin/users/:id/give-credits
+ *   POST /api/admin/users/:id/kick-session
+ *
+ *   POST /api/verify        (called by the Roblox Lua script)
+ */
+
+const express  = require('express');
+const mongoose = require('mongoose');
+const bcrypt   = require('bcryptjs');
+const cors     = require('cors');
+const crypto   = require('crypto');
+const path     = require('path');
+const fs       = require('fs');
+
+const app  = express();
+const PORT              = process.env.PORT              || 3000;
+const MONGO_URI         = process.env.MONGO_URI         || 'mongodb://collectorexalted_db_user:uQyvWxSF6VwmUBkP@ac-so0drys-shard-00-00.1rorwvh.mongodb.net:27017,ac-so0drys-shard-00-01.1rorwvh.mongodb.net:27017,ac-so0drys-shard-00-02.1rorwvh.mongodb.net:27017/?ssl=true&replicaSet=atlas-8xzedc-shard-0&authSource=admin&appName=Cluster0';
+const DISCORD_CLIENT_ID     = process.env.DISCORD_CLIENT_ID     || '';
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || '';
+const DISCORD_REDIRECT_URI  = process.env.DISCORD_REDIRECT_URI  || `http://localhost:${process.env.PORT || 3000}/api/auth/discord/callback`;
+const FRONTEND_URL          = process.env.FRONTEND_URL          || `http://localhost:${process.env.PORT || 3000}`;
+
+/* ─── MONGOOSE SCHEMAS ──────────────────── */
+
+const userSchema = new mongoose.Schema({
+  id:               { type: String, required: true, unique: true },
+  username:         { type: String, required: true, unique: true },
+  discord_id:       { type: String, required: true },
+  discord_username: { type: String, default: '' },
+  discord_avatar:   { type: String, default: '' },
+  password:         { type: String, required: true },
+  role:             { type: String, default: 'member' },
+  credits:          { type: Number, default: 0 },
+  key_prefix:       { type: String, default: null },
+  created_at:       { type: Date,   default: Date.now }
+});
+
+const sessionSchema = new mongoose.Schema({
+  user_id:    { type: String, required: true },
+  token_hash: { type: String, required: true, unique: true },
+  expires_at: { type: Date,   required: true },
+  user_agent: { type: String, default: '' },
+  created_at: { type: Date,   default: Date.now }
+});
+
+const creditHistorySchema = new mongoose.Schema({
+  user_id: { type: String, required: true },
+  action:  { type: String, required: true },
+  amount:  { type: Number, required: true },
+  by_user: { type: String, required: true },
+  date:    { type: String, required: true }
+});
+
+const licenseKeySchema = new mongoose.Schema({
+  id:           { type: String,  required: true, unique: true },
+  system_name:  { type: String,  required: true },
+  server_name:  { type: String,  default: '' },
+  place_id:     { type: String,  required: true },
+  key_value:    { type: String,  required: true, unique: true },
+  assigned_to:  { type: String,  required: true },
+  duration:     { type: String,  default: 'permanent' },
+  activated:    { type: Boolean, default: false },
+  activated_at: { type: Date,    default: null },
+  expires_at:   { type: Date,    default: null },
+  revoked:      { type: Boolean, default: false },
+  job_id:       { type: String,  default: '' },
+  created_by:   { type: String,  required: true },
+  created_at:   { type: Date,    default: Date.now }
+});
+
+/* Activity log — every verify call from Roblox */
+const keyUsageSchema = new mongoose.Schema({
+  key_id:      { type: String, required: true },
+  key_value:   { type: String, required: true },
+  system_name: { type: String, default: '' },
+  place_id:    { type: String, default: '' },
+  job_id:      { type: String, default: '' },
+  server_name: { type: String, default: '' },
+  assigned_to: { type: String, default: '' },
+  created_by:  { type: String, default: '' },  /* who generated the key */
+  event:       { type: String, default: 'heartbeat' },
+  message:     { type: String, default: '' },
+  timestamp:   { type: Date,   default: Date.now }
+});
+
+/* Admin action log — who did what to whom */
+const adminLogSchema = new mongoose.Schema({
+  actor_id:       { type: String, required: true },   /* admin who performed the action */
+  actor_username: { type: String, required: true },
+  action:         { type: String, required: true },   /* e.g. 'revoke_key', 'edit_user' */
+  target_type:    { type: String, default: '' },      /* 'key' | 'user' */
+  target_id:      { type: String, default: '' },
+  target_label:   { type: String, default: '' },      /* human-readable name/key */
+  details:        { type: String, default: '' },      /* extra context */
+  timestamp:      { type: Date,   default: Date.now }
+});
+adminLogSchema.index({ timestamp: -1 });
+adminLogSchema.index({ actor_id: 1, timestamp: -1 });
+
+/* Redeem code schema */
+const redeemCodeSchema = new mongoose.Schema({
+  id:         { type: String, required: true, unique: true },
+  code:       { type: String, required: true, unique: true },
+  prefix:     { type: String, required: true },
+  credits:    { type: Number, required: true },
+  maxUses:    { type: Number, default: 1 },   /* 0 = unlimited */
+  usedCount:  { type: Number, default: 0 },
+  usedBy:     [{ type: String }],             /* array of user ids who redeemed */
+  created_by: { type: String, required: true },
+  created_at: { type: Date,   default: Date.now }
+});
+redeemCodeSchema.index({ code: 1 });
+
+/* Indexes for faster lookups */
+sessionSchema.index({ expires_at: 1 }, { expireAfterSeconds: 0 });
+licenseKeySchema.index({ assigned_to: 1 });
+creditHistorySchema.index({ user_id: 1 });
+keyUsageSchema.index({ key_id: 1, timestamp: -1 });
+keyUsageSchema.index({ timestamp: -1 });
+
+const User          = mongoose.model('User',          userSchema);
+const Session       = mongoose.model('Session',       sessionSchema);
+const CreditHistory = mongoose.model('CreditHistory', creditHistorySchema);
+const LicenseKey    = mongoose.model('LicenseKey',    licenseKeySchema);
+const KeyUsage      = mongoose.model('KeyUsage',      keyUsageSchema);
+const AdminLog      = mongoose.model('AdminLog',      adminLogSchema);
+const RedeemCode    = mongoose.model('RedeemCode',    redeemCodeSchema);
+
+/* ─── DB CONNECT ────────────────────────── */
+async function connectDB() {
+  try {
+    await mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000
+    });
+    console.log('✓ MongoDB connected');
+    await seedAdmin();
+  } catch (err) {
+    console.error('\n✗ MongoDB connection failed:', err.message);
+    if (err.message.includes('ECONNREFUSED') || err.message.includes('querySrv')) {
+      console.error('\n  → Atlas fix: MongoDB Atlas → Network Access → Add IP Address');
+      console.error('  → Add YOUR current IP, or 0.0.0.0/0 to allow all (testing only)');
+      console.error('  → Local MongoDB: make sure mongod is running\n');
+    }
+    process.exit(1);
+  }
+}
+
+/* ─── SEED OWNERS if empty ───────────────── */
+async function seedAdmin() {
+  const owners = [
+    { id: "u1", username: "Void", discord_id: "1329294797755777047", key_prefix: "VOID" },
+    { id: "u2", username: "Zie",  discord_id: "1378265291095543870", key_prefix: "ZIE"  },
+  ];
+
+  for (const o of owners) {
+    const existing = await User.findOne({ $or: [{ id: o.id }, { discord_id: o.discord_id }] });
+    if (!existing) {
+      const pw = bcrypt.hashSync(crypto.randomBytes(24).toString("hex"), 10);
+      await User.create({ id: o.id, username: o.username, discord_id: o.discord_id, password: pw, role: "Owner", credits: 999, key_prefix: o.key_prefix });
+      await CreditHistory.create({ user_id: o.id, action: "Given", amount: 999, by_user: "system", date: today() });
+      console.log("Seeded Owner: " + o.username);
+    } else {
+      const updates = { discord_id: o.discord_id, key_prefix: o.key_prefix };
+      if (existing.role !== "Owner") { updates.role = "Owner"; console.log("Restored Owner role: " + o.username); }
+      await User.updateOne({ _id: existing._id }, { $set: updates });
+    }
+  }
+}
+
+/* ─── HELPERS ───────────────────────────── */
+function genId()  { return crypto.randomBytes(9).toString('hex'); }
+function genKey(prefix) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let rand = '';
+  for (let i = 0; i < 12; i++) rand += chars[Math.floor(Math.random() * chars.length)];
+  return `${prefix}-${rand}`;
+}
+function today()    { return new Date().toISOString().split('T')[0]; }
+function addDays(n) {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return d;
+}
+function hashToken(t) {
+  return crypto.createHash('sha256').update(t).digest('hex');
+}
+/* ─── ROLE HELPERS ──────────────────────────
+   Hierarchy (highest → lowest):
+     Owner        – full control, protected tier
+     Developer    – same as Owner
+     Admin        – manage roles/keys; cannot touch Owner/Developer accounts
+     Staff        – give credits, remove users & keys only
+     Credit Giver – see users, give prefix + credits only
+     member       – regular user
+─────────────────────────────────────────── */
+function isOwnerOrDev(role)      { return role === 'Owner' || role === 'Developer'; }
+function isAdminRole(role)       { return isOwnerOrDev(role) || role === 'Admin'; }
+function isStaffOrAbove(role)    { return isAdminRole(role)  || role === 'Staff'; }
+function canGiveCredits(role)    { return isStaffOrAbove(role) || role === 'Credit Giver'; }
+function canSeeAllUsers(role)    { return canGiveCredits(role); }
+function canManageRoles(role)    { return isAdminRole(role); }
+/* Protected tier — Owner + Developer accounts cannot be edited/kicked by Admin or below */
+function isProtectedTier(role)   { return isOwnerOrDev(role); }
+
+/* Write an admin audit log entry — fire-and-forget (never throws) */
+async function logAdmin(actor, action, targetType, targetId, targetLabel, details = '') {
+  try {
+    await AdminLog.create({
+      actor_id:       actor.id,
+      actor_username: actor.username,
+      action,
+      target_type:  targetType,
+      target_id:    targetId,
+      target_label: targetLabel,
+      details
+    });
+  } catch (_) {}
+}
+
+/* auto-mark expired keys as revoked */
+async function autoRevoke() {
+  await LicenseKey.updateMany(
+    { activated: true, expires_at: { $ne: null, $lt: new Date() }, revoked: false },
+    { $set: { revoked: true } }
+  );
+}
+
+/* ─── MIDDLEWARE ────────────────────────── */
+app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
+
+/* serve the frontend — auto-detect folder location */
+/* ── FRONTEND STATIC FILES ─────────────────────────────────────────
+   All frontend files (index.html, style.css, landing.js, images/, files/)
+   and the dashboard/ subfolder live in the same directory as server.js.
+   express.static serves them all automatically.
+──────────────────────────────────────────────────────────────────── */
+const frontendDir = __dirname;
+console.log(`✓ Serving frontend from: ${frontendDir}`);
+app.use(express.static(frontendDir));
+
+/* ─── DOWNLOAD ROUTE ────────────────────────── */
+/* GET /api/download/license — authenticated users only */
+app.get('/api/download/license', requireAuth, (req, res) => {
+  const filePath = path.join(__dirname, 'downloads', 'KANTOHUB_KEY_SYSTEM.rbxm');
+  res.download(filePath, 'KANTOHUB_KEY_SYSTEM.rbxm', (err) => {
+    if (err) {
+      console.error('Download error:', err);
+      res.status(404).json({ error: 'File not found.' });
+    }
+  });
+});
+
+/* ─── DISCORD OAUTH ─────────────────────── */
+
+/* GET /api/auth/discord — redirect user to Discord consent screen */
+app.get('/api/auth/discord', (req, res) => {
+  if (!DISCORD_CLIENT_ID) {
+    return res.status(503).json({ error: 'Discord OAuth not configured.' });
+  }
+  const params = new URLSearchParams({
+    client_id:     DISCORD_CLIENT_ID,
+    redirect_uri:  DISCORD_REDIRECT_URI,
+    response_type: 'code',
+    scope:         'identify',
+  });
+  res.redirect(`https://discord.com/api/oauth2/authorize?${params}`);
+});
+
+/* GET /api/auth/discord/callback — Discord redirects here with ?code= */
+app.get('/api/auth/discord/callback', async (req, res) => {
+  const { code } = req.query;
+  if (!code) return res.redirect(`${FRONTEND_URL}/dashboard?discord_error=no_code`);
+
+  try {
+    /* 1. Exchange code for Discord access token */
+    const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:    new URLSearchParams({
+        client_id:     DISCORD_CLIENT_ID,
+        client_secret: DISCORD_CLIENT_SECRET,
+        grant_type:    'authorization_code',
+        code,
+        redirect_uri:  DISCORD_REDIRECT_URI,
+      }),
+    });
+    const tokenData = await tokenRes.json();
+    if (!tokenData.access_token) {
+      console.error('Discord token exchange failed:', tokenData);
+      return res.redirect(`${FRONTEND_URL}/dashboard?discord_error=token_failed`);
+    }
+
+    /* 2. Fetch Discord user profile */
+    const userRes    = await fetch('https://discord.com/api/users/@me', {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` }
+    });
+    const dUser = await userRes.json();
+
+    const discordId       = dUser.id;
+    const discordUsername = dUser.global_name || dUser.username;
+    const discordAvatar   = dUser.avatar
+      ? `https://cdn.discordapp.com/avatars/${discordId}/${dUser.avatar}.png?size=128`
+      : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(discordId) >> 22n) % 6}.png`;
+
+    /* 3. Find existing user by discord_id or create new one */
+    let user = await User.findOne({ discord_id: discordId });
+
+    if (!user) {
+      /* Auto-register — use Discord username, deduplicate if needed */
+      let username = discordUsername.replace(/[^a-zA-Z0-9_]/g, '_').slice(0, 20);
+      const clash  = await User.findOne({ username });
+      if (clash) username = username + '_' + genId().slice(0, 4);
+
+      const pw = bcrypt.hashSync(crypto.randomBytes(16).toString('hex'), 10);
+      user = await User.create({
+        id:               genId(),
+        username,
+        discord_id:       discordId,
+        discord_username: discordUsername,
+        discord_avatar:   discordAvatar,
+        password:         pw,
+        role:             'member',
+        credits:          0,
+        key_prefix:       null,
+      });
+    } else {
+      /* Update avatar / display name in case they changed on Discord */
+      await User.updateOne({ id: user.id }, {
+        $set: { discord_username: discordUsername, discord_avatar: discordAvatar }
+      });
+    }
+
+    /* 4. Create a session and redirect to frontend with the token */
+    await Session.deleteMany({ user_id: user.id });
+    const token = crypto.randomBytes(32).toString('hex');
+    await Session.create({
+      user_id:    user.id,
+      token_hash: hashToken(token),
+      expires_at: addDays(1),
+      user_agent: 'discord-oauth',
+    });
+
+    res.redirect(`${FRONTEND_URL}/dashboard?discord_token=${token}`);
+  } catch (e) {
+    console.error('Discord OAuth error:', e);
+    res.redirect(`${FRONTEND_URL}/dashboard?discord_error=server_error`);
+  }
+});
+
+/* auth middleware */
+async function requireAuth(req, res, next) {
+  try {
+    const header = req.headers['authorization'] || '';
+    const token  = header.startsWith('Bearer ') ? header.slice(7) : null;
+    if (!token) return res.status(401).json({ error: 'Not authenticated.' });
+
+    const hash = hashToken(token);
+    const sess = await Session.findOne({ token_hash: hash, expires_at: { $gt: new Date() } });
+    if (!sess)  return res.status(401).json({ error: 'Session expired. Please log in again.' });
+
+    const user = await User.findOne({ id: sess.user_id });
+    if (!user)  return res.status(401).json({ error: 'User not found.' });
+
+    req.user  = { id: user.id, username: user.username, role: user.role, credits: user.credits, key_prefix: user.key_prefix, discord_avatar: user.discord_avatar || '', discord_username: user.discord_username || '' };
+    req.token = token;
+    next();
+  } catch (e) {
+    res.status(500).json({ error: 'Auth error.' });
+  }
+}
+
+function requireAdmin(req, res, next) {
+  if (!isAdminRole(req.user.role))
+    return res.status(403).json({ error: 'Admin only.' });
+  next();
+}
+
+function requireStaff(req, res, next) {
+  if (!isStaffOrAbove(req.user.role))
+    return res.status(403).json({ error: 'Staff or above only.' });
+  next();
+}
+
+function requireCreditGiver(req, res, next) {
+  if (!canGiveCredits(req.user.role))
+    return res.status(403).json({ error: 'No permission.' });
+  next();
+}
+
+/* ─────────────────────────────────────────
+   AUTH ROUTES
+───────────────────────────────────────── */
+
+/* POST /api/auth/login */
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'Fill in all fields.' });
+
+    const user = await User.findOne({ username });
+    if (!user || !bcrypt.compareSync(password, user.password))
+      return res.status(401).json({ error: 'Wrong username or password.' });
+
+    /* one active session per user */
+    await Session.deleteMany({ user_id: user.id });
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const hash  = hashToken(token);
+    const ua    = req.headers['user-agent'] || '';
+
+    await Session.create({
+      user_id:    user.id,
+      token_hash: hash,
+      expires_at: addDays(1),
+      user_agent: ua.slice(0, 200)
+    });
+
+    res.json({
+      token,
+      user: {
+        id:              user.id,
+        username:        user.username,
+        discordId:       user.discord_id,
+        discordUsername: user.discord_username || '',
+        discordAvatar:   user.discord_avatar   || '',
+        role:            user.role,
+        credits:         user.credits,
+        keyprefix:       user.key_prefix
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Login failed.' });
+  }
+});
+
+/* POST /api/auth/register */
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { username, discordId, password } = req.body;
+    if (!username || !discordId || !password)
+      return res.status(400).json({ error: 'Fill in all fields.' });
+    if (password.length < 8)
+      return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+
+    const exists = await User.findOne({ username });
+    if (exists) return res.status(409).json({ error: 'Username already taken.' });
+
+    const hash = bcrypt.hashSync(password, 10);
+    const id   = genId();
+
+    await User.create({
+      id,
+      username,
+      discord_id: discordId,
+      password:   hash,
+      role:       'member',
+      credits:    0,
+      key_prefix: null
+    });
+
+    /* auto-login */
+    await Session.deleteMany({ user_id: id });
+    const token  = crypto.randomBytes(32).toString('hex');
+    const tokenH = hashToken(token);
+    const ua     = req.headers['user-agent'] || '';
+
+    await Session.create({
+      user_id:    id,
+      token_hash: tokenH,
+      expires_at: addDays(1),
+      user_agent: ua.slice(0, 200)
+    });
+
+    res.status(201).json({
+      token,
+      user: { id, username, discordId, role: 'member', credits: 0, keyprefix: null }
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Registration failed.' });
+  }
+});
+
+/* POST /api/auth/logout */
+app.post('/api/auth/logout', requireAuth, async (req, res) => {
+  try {
+    const hash = hashToken(req.token);
+    await Session.deleteOne({ token_hash: hash });
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Logout failed.' });
+  }
+});
+
+/* ─────────────────────────────────────────
+   USER ROUTES
+───────────────────────────────────────── */
+
+/* GET /api/me */
+app.get('/api/me', requireAuth, async (req, res) => {
+  try {
+    const u       = await User.findOne({ id: req.user.id });
+    const history = await CreditHistory.find({ user_id: req.user.id })
+      .sort({ _id: -1 }).limit(50);
+
+    res.json({
+      id:              u.id,
+      username:        u.username,
+      discordId:       u.discord_id,
+      discordUsername: u.discord_username || '',
+      discordAvatar:   u.discord_avatar   || '',
+      role:            u.role,
+      credits:         u.credits,
+      keyprefix:       u.key_prefix,
+      creditHistory:   history.map(h => ({
+        action: h.action,
+        amount: h.amount,
+        by:     h.by_user,
+        date:   h.date
+      }))
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch user.' });
+  }
+});
+
+/* ─────────────────────────────────────────
+   KEY ROUTES
+───────────────────────────────────────── */
+
+/* GET /api/keys — own keys */
+app.get('/api/keys', requireAuth, async (req, res) => {
+  try {
+    await autoRevoke();
+    const keys = await LicenseKey.find({ assigned_to: req.user.id }).sort({ created_at: -1 });
+    res.json(keys.map(formatKey));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch keys.' });
+  }
+});
+
+/* POST /api/keys/generate */
+app.post('/api/keys/generate', requireAuth, async (req, res) => {
+  try {
+    const { systemName, placeId, duration, prefix, assignTo } = req.body;
+    if (!systemName || !placeId || !prefix)
+      return res.status(400).json({ error: 'Fill in all fields.' });
+
+    const u = await User.findOne({ id: req.user.id });
+
+    if (!isAdminRole(u.role)) {
+      if (u.credits <= 0)
+        return res.status(402).json({ error: 'No credits left. Ask an admin.' });
+      if (u.key_prefix && prefix.toUpperCase() !== u.key_prefix)
+        return res.status(400).json({ error: `Use your assigned prefix: ${u.key_prefix}` });
+    }
+
+    const targetId = isAdminRole(u.role) && assignTo ? assignTo : req.user.id;
+    const target   = await User.findOne({ id: targetId });
+    if (!target)   return res.status(400).json({ error: 'Target user not found.' });
+
+    const keyVal = genKey(prefix.toUpperCase());
+    const id     = genId();
+
+    const newKey = await LicenseKey.create({
+      id,
+      system_name: systemName,
+      server_name: '',
+      place_id:    String(placeId).trim(),
+      key_value:   keyVal,
+      assigned_to: targetId,
+      duration:    duration || 'permanent',
+      activated:   false,
+      created_by:  req.user.id
+    });
+
+    /* deduct credit for non-admins */
+    if (!isAdminRole(u.role)) {
+      await User.updateOne({ id: req.user.id }, { $inc: { credits: -1 } });
+      await CreditHistory.create({
+        user_id: req.user.id,
+        action:  'Used',
+        amount:  1,
+        by_user: u.username,
+        date:    today()
+      });
+    }
+
+    res.status(201).json(formatKey(newKey));
+
+    /* Log key generation in activity — visible to admin + key owner */
+    try {
+      await KeyUsage.create({
+        key_id:      id,
+        key_value:   keyVal,
+        system_name: systemName,
+        place_id:    String(placeId).trim(),
+        job_id:      '',
+        server_name: '',
+        assigned_to: targetId,
+        created_by:  req.user.id,
+        event:       'generated',
+        message:     `Key generated by ${u.username}`
+      });
+    } catch (_) {}
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to generate key.' });
+  }
+});
+
+/* DELETE /api/keys/:id */
+app.delete('/api/keys/:id', requireAuth, async (req, res) => {
+  try {
+    const k = await LicenseKey.findOne({ id: req.params.id });
+    if (!k) return res.status(404).json({ error: 'Key not found.' });
+
+    const u = await User.findOne({ id: req.user.id });
+    if (!isStaffOrAbove(u.role)) {
+      const ownedByMe   = k.assigned_to === req.user.id;
+      const matchPrefix = u.key_prefix && k.key_value.startsWith(u.key_prefix + '-');
+      if (!ownedByMe && !matchPrefix)
+        return res.status(403).json({ error: 'You can only revoke your own keys.' });
+    }
+
+    await LicenseKey.deleteOne({ id: req.params.id });
+    /* Audit log — who revoked this key */
+    await logAdmin(
+      req.user, 'revoke_key', 'key', k.id,
+      k.key_value,
+      `System: ${k.system_name} | Assigned to: ${k.assigned_to}`
+    );
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to revoke key.' });
+  }
+});
+
+/* ─────────────────────────────────────────
+   ADMIN ROUTES
+───────────────────────────────────────── */
+
+/* GET /api/admin/keys */
+app.get('/api/admin/keys', requireAuth, requireStaff, async (req, res) => {
+  try {
+    await autoRevoke();
+    const keys = await LicenseKey.find().sort({ created_at: -1 });
+    res.json(keys.map(formatKey));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch keys.' });
+  }
+});
+
+/* GET /api/admin/users */
+app.get('/api/admin/users', requireAuth, requireCreditGiver, async (req, res) => {
+  try {
+    const users    = await User.find().sort({ created_at: 1 });
+    const sessions = await Session.aggregate([
+      { $match: { expires_at: { $gt: new Date() } } },
+      { $group: { _id: '$user_id', cnt: { $sum: 1 } } }
+    ]);
+
+    const sessMap = {};
+    sessions.forEach(s => { sessMap[s._id] = s.cnt; });
+
+    res.json(users.map(u => ({
+      id:             u.id,
+      username:       u.username,
+      discordId:      u.discord_id,
+      role:           u.role,
+      credits:        u.credits,
+      keyprefix:      u.key_prefix,
+      activeSessions: sessMap[u.id] || 0
+    })));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch users.' });
+  }
+});
+
+/* POST /api/admin/users/:id/edit */
+app.post('/api/admin/users/:id/edit', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { role, addCredits, keyPrefix } = req.body;
+    const requester = await User.findOne({ id: req.user.id });
+    const target    = await User.findOne({ id: req.params.id });
+    if (!target) return res.status(404).json({ error: 'User not found.' });
+
+    /* Owner/Developer accounts are protected — only Owner/Developer can edit them */
+    if (isProtectedTier(target.role) && !isOwnerOrDev(requester.role))
+      return res.status(403).json({ error: 'Only an Owner or Developer can edit this account.' });
+
+    /* Only Owner/Developer can assign the Owner role */
+    if (role === 'Owner' && !isOwnerOrDev(requester.role))
+      return res.status(403).json({ error: 'Only an Owner or Developer can assign the Owner role.' });
+
+    /* Only Owner/Developer can assign the Developer role */
+    if (role === 'Developer' && !isOwnerOrDev(requester.role))
+      return res.status(403).json({ error: 'Only an Owner or Developer can assign the Developer role.' });
+
+    /* Admin cannot promote someone to a role equal to or above their own */
+    const roleRank = { member: 0, 'Credit Giver': 1, Staff: 2, Admin: 3, Developer: 4, Owner: 4 };
+    if (role && (roleRank[role] ?? 0) >= (roleRank[requester.role] ?? 0) && !isOwnerOrDev(requester.role))
+      return res.status(403).json({ error: 'You cannot assign a role equal to or above your own.' });
+
+    const $set = {};
+    if (role)      $set.role       = role;
+    if (keyPrefix) $set.key_prefix = keyPrefix.toUpperCase();
+
+    const add      = parseInt(addCredits) || 0;
+    const updateOp = {};
+    if (Object.keys($set).length) updateOp.$set = $set;
+    if (add > 0) {
+      updateOp.$inc = { credits: add };
+      await CreditHistory.create({
+        user_id: target.id,
+        action:  'Given',
+        amount:  add,
+        by_user: req.user.username,
+        date:    today()
+      });
+    }
+
+    if (Object.keys(updateOp).length) {
+      await User.updateOne({ id: req.params.id }, updateOp);
+    }
+
+    const updated = await User.findOne({ id: req.params.id });
+    /* Audit log */
+    const changeDesc = [];
+    if (role)      changeDesc.push(`role→${role}`);
+    if (keyPrefix) changeDesc.push(`prefix→${keyPrefix.toUpperCase()}`);
+    if (add > 0)   changeDesc.push(`+${add} credits`);
+    await logAdmin(
+      req.user, 'edit_user', 'user', target.id,
+      target.username,
+      changeDesc.join(', ')
+    );
+    res.json({
+      ok: true,
+      user: {
+        id:        updated.id,
+        username:  updated.username,
+        role:      updated.role,
+        credits:   updated.credits,
+        keyprefix: updated.key_prefix
+      }
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to edit user.' });
+  }
+});
+
+/* POST /api/admin/users/:id/give-credits */
+app.post('/api/admin/users/:id/give-credits', requireAuth, requireCreditGiver, async (req, res) => {
+  try {
+    const u = await User.findOne({ id: req.user.id });
+    if (!canGiveCredits(u.role)) return res.status(403).json({ error: 'No permission.' });
+
+    const target = await User.findOne({ id: req.params.id });
+    if (!target) return res.status(404).json({ error: 'User not found.' });
+
+    const { amount, keyPrefix } = req.body;
+    const amt = parseInt(amount) || 0;
+    if (amt <= 0)  return res.status(400).json({ error: 'Amount must be > 0.' });
+    if (!keyPrefix) return res.status(400).json({ error: 'Key prefix required.' });
+
+    await User.updateOne(
+      { id: target.id },
+      { $inc: { credits: amt }, $set: { key_prefix: keyPrefix.toUpperCase() } }
+    );
+
+    await CreditHistory.create({
+      user_id: target.id,
+      action:  'Given',
+      amount:  amt,
+      by_user: u.username,
+      date:    today()
+    });
+
+    /* Audit log */
+    await logAdmin(
+      req.user, 'give_credits', 'user', target.id,
+      target.username,
+      `+${amt} credits | prefix: ${keyPrefix.toUpperCase()}`
+    );
+
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to give credits.' });
+  }
+});
+
+/* ─────────────────────────────────────────
+   REDEEM CODE ROUTES
+───────────────────────────────────────── */
+
+/* POST /api/admin/redeem-codes — create a redeem code (Admin+) */
+app.post('/api/admin/redeem-codes', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { code, prefix, credits, maxUses } = req.body;
+    if (!code)    return res.status(400).json({ error: 'Code is required.' });
+    if (!prefix)  return res.status(400).json({ error: 'Prefix is required.' });
+    if (!credits || credits < 1) return res.status(400).json({ error: 'Credits must be at least 1.' });
+
+    const normalised = code.trim().toUpperCase();
+    const exists = await RedeemCode.findOne({ code: normalised });
+    if (exists)   return res.status(409).json({ error: 'A code with that name already exists.' });
+
+    const rc = await RedeemCode.create({
+      id:         genId(),
+      code:       normalised,
+      prefix:     prefix.trim().toUpperCase(),
+      credits:    parseInt(credits),
+      maxUses:    parseInt(maxUses) || 0,
+      created_by: req.user.username
+    });
+
+    await logAdmin(req.user, 'create_redeem_code', 'redeem', rc.id, normalised,
+      `+${credits} credits | prefix:${prefix.toUpperCase()} | max uses:${maxUses || '∞'}`);
+
+    res.json({ ok: true, id: rc.id, code: rc.code });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to create redeem code.' });
+  }
+});
+
+/* GET /api/admin/redeem-codes — list all codes (Admin+) */
+app.get('/api/admin/redeem-codes', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const codes = await RedeemCode.find({}).sort({ created_at: -1 });
+    res.json(codes.map(c => ({
+      id:         c.id,
+      code:       c.code,
+      prefix:     c.prefix,
+      credits:    c.credits,
+      maxUses:    c.maxUses,
+      usedCount:  c.usedCount,
+      usesLeft:   c.maxUses === 0 ? Infinity : Math.max(0, c.maxUses - c.usedCount),
+      createdAt:  c.created_at
+    })));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to load redeem codes.' });
+  }
+});
+
+/* DELETE /api/admin/redeem-codes/:id — delete a code (Admin+) */
+app.delete('/api/admin/redeem-codes/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const rc = await RedeemCode.findOne({ id: req.params.id });
+    if (!rc) return res.status(404).json({ error: 'Redeem code not found.' });
+    await RedeemCode.deleteOne({ id: rc.id });
+    await logAdmin(req.user, 'delete_redeem_code', 'redeem', rc.id, rc.code, '');
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to delete redeem code.' });
+  }
+});
+
+/* GET /api/redeem/preview?code=... — preview a code before redeeming (any auth user) */
+app.get('/api/redeem/preview', requireAuth, async (req, res) => {
+  try {
+    const { code } = req.query;
+    if (!code) return res.status(400).json({ error: 'Code required.' });
+
+    const rc = await RedeemCode.findOne({ code: code.trim().toUpperCase() });
+    if (!rc) return res.status(404).json({ error: 'Invalid or expired code.' });
+
+    /* Already redeemed by this user? */
+    if (rc.usedBy.includes(req.user.id))
+      return res.status(409).json({ error: 'You have already redeemed this code.' });
+
+    /* Maxed out? */
+    if (rc.maxUses > 0 && rc.usedCount >= rc.maxUses)
+      return res.status(410).json({ error: 'This code has been fully redeemed.' });
+
+    res.json({
+      code:     rc.code,
+      credits:  rc.credits,
+      prefix:   rc.prefix,
+      maxUses:  rc.maxUses,
+      usesLeft: rc.maxUses === 0 ? 0 : rc.maxUses - rc.usedCount
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to preview code.' });
+  }
+});
+
+/* POST /api/redeem — redeem a code (any auth user) */
+app.post('/api/redeem', requireAuth, async (req, res) => {
+  try {
+    const { code } = req.body;
+    if (!code) return res.status(400).json({ error: 'Code required.' });
+
+    const rc = await RedeemCode.findOne({ code: code.trim().toUpperCase() });
+    if (!rc) return res.status(404).json({ error: 'Invalid or expired code.' });
+
+    if (rc.usedBy.includes(req.user.id))
+      return res.status(409).json({ error: 'You have already redeemed this code.' });
+
+    if (rc.maxUses > 0 && rc.usedCount >= rc.maxUses)
+      return res.status(410).json({ error: 'This code has been fully redeemed.' });
+
+    /* Apply credits + prefix */
+    await User.updateOne(
+      { id: req.user.id },
+      { $inc: { credits: rc.credits }, $set: { key_prefix: rc.prefix } }
+    );
+
+    await CreditHistory.create({
+      user_id: req.user.id,
+      action:  'Redeemed',
+      amount:  rc.credits,
+      by_user: `Code: ${rc.code}`,
+      date:    today()
+    });
+
+    /* Mark code as used */
+    await RedeemCode.updateOne(
+      { id: rc.id },
+      { $inc: { usedCount: 1 }, $push: { usedBy: req.user.id } }
+    );
+
+    await logAdmin(
+      { id: req.user.id, username: req.user.username },
+      'redeem_code', 'redeem', rc.id, rc.code,
+      `User ${req.user.username} redeemed +${rc.credits} credits | prefix:${rc.prefix}`
+    );
+
+    res.json({ ok: true, credits: rc.credits, prefix: rc.prefix });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to redeem code.' });
+  }
+});
+
+/* POST /api/admin/users/:id/kick-session */
+app.post('/api/admin/users/:id/kick-session', requireAuth, requireStaff, async (req, res) => {
+  try {
+    const target = await User.findOne({ id: req.params.id });
+    if (!target) return res.status(404).json({ error: 'User not found.' });
+    if (isProtectedTier(target.role) && !isOwnerOrDev(req.user.role))
+      return res.status(403).json({ error: 'Only an Owner or Developer can kick this account\'s session.' });
+    await Session.deleteMany({ user_id: req.params.id });
+    /* Audit log */
+    await logAdmin(req.user, 'kick_session', 'user', target.id, target.username, 'Force-logged out');
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to kick session.' });
+  }
+});
+
+/* DELETE /api/admin/users/:id — delete account + all their data */
+app.delete('/api/admin/users/:id', requireAuth, requireStaff, async (req, res) => {
+  try {
+    const target = await User.findOne({ id: req.params.id });
+    if (!target) return res.status(404).json({ error: 'User not found.' });
+
+    /* Cannot delete yourself */
+    if (target.id === req.user.id)
+      return res.status(400).json({ error: 'You cannot delete your own account.' });
+    /* Owner/Developer accounts are protected */
+    if (isProtectedTier(target.role))
+      return res.status(403).json({ error: 'Cannot delete an Owner or Developer account.' });
+    /* Admin cannot delete another Admin (only Owner/Developer can) */
+    if (target.role === 'Admin' && !isOwnerOrDev(req.user.role))
+      return res.status(403).json({ error: 'Only an Owner or Developer can delete an Admin account.' });
+
+    /* Wipe sessions, keys, credit history, then user */
+    await Session.deleteMany({ user_id: target.id });
+    await LicenseKey.deleteMany({ assigned_to: target.id });
+    await CreditHistory.deleteMany({ user_id: target.id });
+    await User.deleteOne({ id: target.id });
+
+    /* Audit log */
+    await logAdmin(req.user, 'delete_user', 'user', target.id, target.username, `Role was: ${target.role}`);
+
+    res.json({ ok: true, deleted: target.username });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to delete user.' });
+  }
+});
+
+/* POST /api/admin/users/:id/set-password — force password reset */
+app.post('/api/admin/users/:id/set-password', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 8)
+      return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+
+    const target = await User.findOne({ id: req.params.id });
+    if (!target) return res.status(404).json({ error: 'User not found.' });
+
+    /* Cannot reset Owner/Developer password unless you ARE Owner/Developer */
+    if (isProtectedTier(target.role) && !isOwnerOrDev(req.user.role))
+      return res.status(403).json({ error: 'Cannot reset Owner/Developer password.' });
+
+    const hash = bcrypt.hashSync(newPassword, 10);
+    await User.updateOne({ id: target.id }, { $set: { password: hash } });
+
+    /* Kick their active sessions so they must re-login with new password */
+    await Session.deleteMany({ user_id: target.id });
+
+    /* Audit log */
+    await logAdmin(req.user, 'reset_password', 'user', target.id, target.username, 'Password force-reset');
+
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to reset password.' });
+  }
+});
+
+/* ─────────────────────────────────────────
+   ROBLOX VERIFY ENDPOINT
+   Called by the Lua script inside Roblox game servers.
+───────────────────────────────────────── */
+app.post('/api/verify', async (req, res) => {
+  try {
+    const { key, placeId, serverName, jobId, systemName } = req.body;
+    if (!key || !placeId) return res.status(400).json({ valid: false, message: 'missing_config' });
+
+    const cleanKey        = String(key).trim();
+    const cleanPlaceId    = String(placeId).trim();
+    const cleanSystemName = systemName ? String(systemName).trim() : '';
+
+    const k = await LicenseKey.findOne({ key_value: cleanKey });
+
+    /* helper: log usage event — always includes created_by so the key creator sees it too */
+    async function logUsage(event, message) {
+      try {
+        await KeyUsage.create({
+          key_id:      k ? k.id : 'unknown',
+          key_value:   cleanKey,
+          system_name: k ? k.system_name : '',
+          place_id:    cleanPlaceId,
+          job_id:      (jobId || '').slice(0, 80),
+          server_name: (serverName || '').slice(0, 100),
+          assigned_to: k ? k.assigned_to : '',
+          created_by:  k ? k.created_by  : '',
+          event,
+          message
+        });
+      } catch (_) {}
+    }
+
+    if (!k)        { await logUsage('denied', 'invalid_key');     return res.json({ valid: false, message: 'invalid_key' }); }
+    if (k.revoked) { await logUsage('denied', 'revoked');         return res.json({ valid: false, message: 'revoked' }); }
+    if (k.place_id.trim() !== cleanPlaceId) {
+      /* include both expected and attempted place IDs so the UI can show the diff */
+      await logUsage('denied', `invalid_place_id|expected:${k.place_id}|got:${cleanPlaceId}`);
+      return res.json({ valid: false, message: 'invalid_place_id' });
+    }
+
+    /* A key is issued for ONE system. If the calling script sends its
+       SYSTEM_NAME and it doesn't match what this key was generated for,
+       reject it — this is what stops one key (meant for System A) from
+       also authorizing System B just because both live in the same game. */
+    if (cleanSystemName && k.system_name && k.system_name.trim() !== cleanSystemName) {
+      await logUsage('denied', `system_mismatch|expected:${k.system_name}|got:${cleanSystemName}`);
+      return res.json({ valid: false, message: 'system_mismatch' });
+    }
+
+    /* check expiry if already active */
+    if (k.activated && k.expires_at && new Date(k.expires_at) < new Date()) {
+      await LicenseKey.updateOne({ id: k.id }, { $set: { revoked: true } });
+      await logUsage('denied', 'expired');
+      return res.json({ valid: false, message: 'expired' });
+    }
+
+    /* first activation — start the countdown NOW */
+    if (!k.activated) {
+      let expiresAt = null;
+      const dur = k.duration;
+      if      (dur === '30d' || dur === '1month') expiresAt = addDays(30);
+      else if (dur === '7d'  || dur === '1week')  expiresAt = addDays(7);
+      else if (dur === '3d'  || dur === '3days')  expiresAt = addDays(3);
+      else if (dur === '1d')                      expiresAt = addDays(1);
+
+      const srvName = (serverName || 'Roblox Server').slice(0, 100);
+      await LicenseKey.updateOne({ id: k.id }, {
+        $set: {
+          activated:    true,
+          activated_at: new Date(),
+          server_name:  srvName,
+          job_id:       (jobId || '').slice(0, 80),
+          expires_at:   expiresAt
+        }
+      });
+
+      const updated = await LicenseKey.findOne({ id: k.id });
+      await logUsage('activated', 'first_use');
+      return res.json({ valid: true, message: 'activated', expiresAt: updated.expires_at });
+    }
+
+    /* already active — log heartbeat (throttle: once per 5 min per jobId) */
+    const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000);
+    const recentLog  = await KeyUsage.findOne({
+      key_id: k.id,
+      job_id: (jobId || '').slice(0, 80),
+      event:  'heartbeat',
+      timestamp: { $gt: fiveMinAgo }
+    });
+    if (!recentLog) await logUsage('heartbeat', `Server: ${(serverName || 'Unknown').slice(0, 60)}`);
+
+    return res.json({ valid: true, message: 'ok', expiresAt: k.expires_at });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ valid: false, message: 'server_error' });
+  }
+});
+
+/* GET /api/activity — current user's own key activity log */
+app.get('/api/activity', requireAuth, async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 50, 200);
+
+    /* Also fetch the user's own key values so we can catch
+       denied attempts (invalid_place_id) that are logged with the
+       correct key_value but maybe a blank assigned_to fallback */
+    const myKeys = await LicenseKey.find({ assigned_to: req.user.id }).select('key_value');
+    const myKeyValues = myKeys.map(k => k.key_value);
+
+    const logs = await KeyUsage.find({
+      $or: [
+        { assigned_to: req.user.id },
+        { created_by:  req.user.id },
+        /* catch denied logs tied to their key values */
+        { event: 'denied', key_value: { $in: myKeyValues } }
+      ]
+    })
+      .sort({ timestamp: -1 })
+      .limit(limit);
+
+    res.json(logs.map(l => ({
+      id:         l._id,
+      keyId:      l.key_id,
+      keyValue:   l.key_value,
+      systemName: l.system_name,
+      placeId:    l.place_id,
+      jobId:      l.job_id,
+      serverName: l.server_name,
+      assignedTo: l.assigned_to,
+      createdBy:  l.created_by,
+      event:      l.event,
+      message:    l.message,
+      timestamp:  l.timestamp
+    })));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch activity.' });
+  }
+});
+
+/* DELETE /api/activity — clear current user's own activity logs */
+app.delete('/api/activity', requireAuth, async (req, res) => {
+  try {
+    await KeyUsage.deleteMany({ assigned_to: req.user.id });
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to clear activity.' });
+  }
+});
+
+/* GET /api/admin/audit-log — admin action history */
+app.get('/api/admin/audit-log', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const limit  = Math.min(parseInt(req.query.limit) || 100, 500);
+    const actor  = req.query.actor || null;
+    const filter = actor ? { actor_id: actor } : {};
+    const logs   = await AdminLog.find(filter).sort({ timestamp: -1 }).limit(limit);
+    res.json(logs.map(l => ({
+      id:           l._id,
+      actorId:      l.actor_id,
+      actorName:    l.actor_username,
+      action:       l.action,
+      targetType:   l.target_type,
+      targetId:     l.target_id,
+      targetLabel:  l.target_label,
+      details:      l.details,
+      timestamp:    l.timestamp
+    })));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch audit log.' });
+  }
+});
+
+/* DELETE /api/admin/audit-log — clear audit log (Owner / Developer only) */
+app.delete('/api/admin/audit-log', requireAuth, async (req, res) => {
+  if (!isOwnerOrDev(req.user.role))
+    return res.status(403).json({ error: 'Owner or Developer only.' });
+  try {
+    await AdminLog.deleteMany({});
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to clear audit log.' });
+  }
+});
+
+/* GET /api/admin/activity — recent key usage log */
+app.get('/api/admin/activity', requireAuth, requireStaff, async (req, res) => {
+  try {
+    const limit  = Math.min(parseInt(req.query.limit) || 50, 200);
+    const keyId  = req.query.keyId || null;
+    const filter = keyId ? { key_id: keyId } : {};
+    const logs   = await KeyUsage.find(filter).sort({ timestamp: -1 }).limit(limit);
+    res.json(logs.map(l => ({
+      id:         l._id,
+      keyId:      l.key_id,
+      keyValue:   l.key_value,
+      systemName: l.system_name,
+      placeId:    l.place_id,
+      jobId:      l.job_id,
+      serverName: l.server_name,
+      assignedTo: l.assigned_to,
+      createdBy:  l.created_by,
+      event:      l.event,
+      message:    l.message,
+      timestamp:  l.timestamp
+    })));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch activity.' });
+  }
+});
+
+/* GET /api/admin/denied — all denied events including invalid_key (no user link) */
+app.get('/api/admin/denied', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 100, 500);
+    const logs  = await KeyUsage.find({ event: 'denied' }).sort({ timestamp: -1 }).limit(limit);
+    res.json(logs.map(l => ({
+      id:         l._id,
+      keyId:      l.key_id,
+      keyValue:   l.key_value,
+      systemName: l.system_name,
+      placeId:    l.place_id,
+      jobId:      l.job_id,
+      serverName: l.server_name,
+      assignedTo: l.assigned_to,
+      createdBy:  l.created_by,
+      event:      l.event,
+      message:    l.message,
+      timestamp:  l.timestamp
+    })));
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch denied events.' });
+  }
+});
+
+/* DELETE /api/admin/activity — clear ALL activity logs (admin only) */
+app.delete('/api/admin/activity', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    await KeyUsage.deleteMany({});
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to clear activity.' });
+  }
+});
+
+/* ─────────────────────────────────────────
+   FORMAT HELPER
+───────────────────────────────────────── */
+function formatKey(k) {
+  return {
+    id:          k.id,
+    systemName:  k.system_name,
+    serverName:  k.server_name,
+    placeid:     k.place_id,
+    key:         k.key_value,
+    assignedTo:  k.assigned_to,
+    duration:    k.duration,
+    activated:   !!k.activated,
+    activatedAt: k.activated_at,
+    expiresAt:   k.expires_at,
+    revoked:     !!k.revoked,
+    jobId:       k.job_id,
+    createdBy:   k.created_by,
+    createdAt:   k.created_at
+  };
+}
+
+/* ─────────────────────────────────────────
+   CATCH-ALL — serve index.html for any
+   unmatched GET (handles Discord callback
+   redirect and direct URL visits)
+───────────────────────────────────────── */
+/* ── CATCH-ALL ─────────────────────────────────────────────────────
+   /dashboard  → dashboard/index.html  (the app shell with auth + sidebar)
+   everything else → index.html        (landing page)
+──────────────────────────────────────────────────────────────────── */
+app.get('/dashboard', (req, res) => {
+  const dashPath = path.join(frontendDir, 'dashboard', 'index.html');
+  if (fs.existsSync(dashPath)) {
+    res.sendFile(dashPath);
+  } else {
+    res.status(404).send('Dashboard not found. Make sure dashboard/index.html exists.');
+  }
+});
+
+app.get('*', (req, res) => {
+  const indexPath = path.join(frontendDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('Not found.');
+  }
+});
+
+/* ─────────────────────────────────────────
+   START
+───────────────────────────────────────── */
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`\n🛡️  KantoHub backend running on http://localhost:${PORT}`);
+    console.log(`   MongoDB: ${MONGO_URI}`);
+    console.log(`   Frontend served from: ${path.join(__dirname, '../frontend')}\n`);
+  });
+});
